@@ -7,7 +7,7 @@
   <meta name="description" content="Explore the Caravanserai curriculum for onchain data, analytics, and data engineering.">
   <link rel="stylesheet" href="ui.css">
   <link rel="stylesheet" href="components.css">
-  <link rel="stylesheet" href="style.css?v=lesson1">
+  <link rel="stylesheet" href="style.css?v=catalog1">
 </head>
 <body data-page="catalog">
   <a class="skip-link" href="#content">Skip to content</a>
@@ -17,11 +17,14 @@
       <p class="eyebrow">Caravanserai / Index</p>
       <h1>Chapter catalog</h1>
     </div>
-    <label class="search-field">
-      <span>Search chapters</span>
-      <span data-search-mount="data-filter-search" data-placeholder="Try traces, watermarks, or TVL"></span>
-    </label>
-    <div class="catalog-controls" data-catalog-filters></div>
+    <p class="catalog-intro">Every chapter in the guide, grouped by stop. Search the full text, narrow by tool or type, and tick off what you've read.</p>
+    <div class="catalog-controls">
+      <label class="search-field">
+        <span>Search</span>
+        <span data-search-mount="data-filter-search" data-placeholder="Try traces, watermarks, or TVL"></span>
+      </label>
+      <div class="catalog-filters" data-catalog-filters></div>
+    </div>
     <div class="result-bar">
       <p class="result-count" data-catalog-count role="status"></p>
       <span data-reset-mount></span>
@@ -32,6 +35,6 @@
   <script src="progress.js?v=20260831"></script>
   <script src="header.js?v=manual1"></script>
   <script src="ui.js"></script>
-  <script src="app.js?v=lesson1"></script>
+  <script src="app.js?v=catalog1"></script>
 </body>
 </html>

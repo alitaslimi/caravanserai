@@ -63,16 +63,6 @@
     }
   }
 
-  function lessonRow(lesson) {
-    var done = BookProgress.isComplete(lesson.id);
-    return '<li><a class="index-row" href="' + lessonUrl(lesson) + '">' +
-      '<span class="index-number">' + pad(lesson.phaseNumber) + '.' + pad(lesson.lessonNumber) + '</span>' +
-      '<span class="index-copy"><strong>' + escapeHtml(lesson.title) + '</strong>' +
-      '<small>' + escapeHtml(lesson.phase) + '</small></span>' +
-      '<span class="index-meta">' + escapeHtml(done ? 'Completed' : lesson.time || lesson.type) + '</span>' +
-      '<span class="index-arrow" aria-hidden="true">&rarr;</span></a></li>';
-  }
-
   function minutes(lesson) {
     var match = String(lesson.time || '').match(/\d+/);
     return match ? Number(match[0]) : 0;
@@ -157,43 +147,60 @@
     var reset = document.querySelector('[data-reset-filters]');
     var target = document.querySelector('[data-catalog-results]');
     var count = document.querySelector('[data-catalog-count]');
+    // [url key, label, values of a lesson, fixed options]
     var facets = [
-      ['phase', 'Phase', function (l) { return [String(l.phaseNumber)]; }, PHASES.map(function (phase) {
-        return [String(phase.number), phase.title];
+      ['phase', 'Stop', function (l) { return [String(l.phaseNumber)]; }, PHASES.map(function (phase) {
+        return [String(phase.number), pad(phase.number) + ' · ' + phase.title];
       })],
       ['type', 'Type', function (l) { return [l.type]; }],
       ['tool', 'Tool', function (l) { return l.tools; }],
       ['chain', 'Chain', function (l) { return l.chains; }],
       ['protocol', 'Protocol', function (l) { return l.protocols; }],
-      ['status', 'Status', function (l) { return [l.status]; }]
+      ['status', 'Status', function (l) { return [l.status]; }],
+      ['progress', 'Progress', function (l) { return [BookProgress.isComplete(l.id) ? 'read' : 'unread']; }, [['unread', 'Unread'], ['read', 'Read']]]
     ];
     var selected = Object.create(null);
     search.value = params.get('q') || '';
 
     var groups = facets.flatMap(function (facet) {
-      var options = facet[3] || unique(LESSONS.flatMap(facet[2])).map(function (value) { return [value, value]; });
+      var options = facet[3] || unique(LESSONS.flatMap(facet[2])).sort().map(function (value) { return [value, value]; });
       var initial = params.get(facet[0]);
       if (options.some(function (option) { return option[0] === initial; })) selected[facet[0]] = initial;
-      var useful = options.length > 1 || (options.length === 1 && LESSONS.some(function (lesson) {
+      var useful = facet[0] === 'progress' || options.length > 1 || (options.length === 1 && LESSONS.some(function (lesson) {
         return !facet[2](lesson).includes(options[0][0]);
       }));
-      if (!useful && !selected[facet[0]]) return [];
-      return [{ key: facet[0], label: facet[1], options: [['', 'All']].concat(options) }];
+      return useful || selected[facet[0]] ? [{ key: facet[0], label: facet[1], options: options }] : [];
     });
-    BookUI.facets(controls, groups);
+    controls.innerHTML = groups.map(function (group) {
+      return '<label class="filter-select"><span>' + escapeHtml(group.label) + '</span>' +
+        '<select data-facet="' + escapeAttr(group.key) + '"><option value="">All</option>' +
+        group.options.map(function (option) {
+          return '<option value="' + escapeAttr(option[0]) + '"' + (selected[group.key] === option[0] ? ' selected' : '') + '>' +
+            escapeHtml(option[1]) + '</option>';
+        }).join('') + '</select></label>';
+    }).join('');
 
-    controls.addEventListener('click', function (event) {
-      var button = event.target.closest('[data-facet]');
-      if (!button) return;
-      selected[button.dataset.facet] = button.dataset.value;
+    controls.addEventListener('change', function (event) {
+      var select = event.target.closest('[data-facet]');
+      if (!select) return;
+      selected[select.dataset.facet] = select.value;
       draw();
     });
     search.addEventListener('input', draw);
     reset.addEventListener('click', function () {
       selected = Object.create(null);
+      controls.querySelectorAll('select').forEach(function (select) { select.value = ''; });
       search.value = '';
       search.focus();
       draw();
+    });
+    target.addEventListener('change', function (event) {
+      var box = event.target.closest('[data-read-toggle]');
+      if (!box) return;
+      BookProgress.toggleComplete(box.dataset.readToggle);
+      draw();
+      var again = target.querySelector('[data-read-toggle="' + CSS.escape(box.dataset.readToggle) + '"]');
+      if (again) again.focus();
     });
     draw();
 
@@ -202,13 +209,10 @@
       var words = query.split(/\s+/).filter(Boolean);
       var rows = LESSONS.filter(function (lesson) {
         var haystack = [lesson.title, lesson.phase, lesson.body, lesson.datasets.join(' ')]
-          .concat(facets.flatMap(function (facet) { return facet[2](lesson); })).join(' ').toLowerCase();
+          .concat(facets.slice(0, -1).flatMap(function (facet) { return facet[2](lesson); })).join(' ').toLowerCase();
         return words.every(function (word) { return haystack.includes(word); }) && facets.every(function (facet) {
           return !selected[facet[0]] || facet[2](lesson).includes(selected[facet[0]]);
         });
-      });
-      controls.querySelectorAll('[data-facet]').forEach(function (button) {
-        button.setAttribute('aria-pressed', String((selected[button.dataset.facet] || '') === button.dataset.value));
       });
       var active = Object.keys(selected).filter(function (key) { return selected[key]; });
       var url = new URL(location.href);
@@ -218,16 +222,52 @@
       active.forEach(function (key) { url.searchParams.set(key, selected[key]); });
       history.replaceState(null, '', url);
       reset.hidden = !query && !active.length;
-      count.textContent = rows.length + (rows.length === 1 ? ' chapter' : ' chapters');
-      var phase = PHASES.find(function (item) { return String(item.number) === selected.phase; });
-      if (rows.length) target.innerHTML = '<ol class="index-list">' + rows.map(lessonRow).join('') + '</ol>';
-      else if (phase && !phase.lessons.length && !query && active.length === 1) {
-        target.innerHTML = '<section class="planned-section"><h2>' + escapeHtml(phase.title) + '</h2><p>' +
-          escapeHtml(phase.summary) + '</p><ul>' + phase.topics.map(function (topic) {
-            return '<li>' + escapeHtml(topic) + '</li>';
-          }).join('') + '</ul><p class="eyebrow">Chapters planned</p></section>';
+      var read = LESSONS.filter(function (lesson) { return BookProgress.isComplete(lesson.id); }).length;
+      count.textContent = (rows.length === LESSONS.length ? 'All ' : 'Showing ' + rows.length + ' of ') +
+        LESSONS.length + ' chapters · ' + read + ' read';
+
+      // Planned stops appear when nothing narrows the list except, possibly, the stop itself.
+      var showPlanned = !query && active.every(function (key) { return key === 'phase'; });
+      var body = PHASES.map(function (phase) {
+        var chapters = rows.filter(function (lesson) { return lesson.phaseNumber === phase.number; });
+        var all = phaseLessons(phase.number);
+        var planned = showPlanned && !all.length && (!selected.phase || selected.phase === String(phase.number));
+        if (!chapters.length && !planned) return '';
+        var head = '<tr class="catalog-stop"><th colspan="5" scope="rowgroup"><a href="index.html#' + escapeAttr(phase.slug) + '">' +
+          '<span class="catalog-stop-number">Stop ' + pad(phase.number) + '</span>' +
+          '<span class="catalog-stop-title">' + escapeHtml(phase.title) + '</span></a>' +
+          '<span class="catalog-stop-meta">' + (all.length
+            ? all.length + (all.length === 1 ? ' chapter' : ' chapters') + ' · ' +
+              all.filter(function (lesson) { return BookProgress.isComplete(lesson.id); }).length + ' read'
+            : 'Planned') + '</span></th></tr>';
+        if (!all.length) {
+          return '<tbody>' + head + phase.topics.map(function (topic) {
+            return '<tr class="catalog-planned"><td class="catalog-done"></td><td class="catalog-number">&mdash;</td>' +
+              '<td class="catalog-title" colspan="3">' + escapeHtml(topic) + '</td></tr>';
+          }).join('') + '</tbody>';
+        }
+        return '<tbody>' + head + chapters.map(catalogRow).join('') + '</tbody>';
+      }).join('');
+
+      if (body) {
+        target.innerHTML = '<table class="catalog-table"><thead><tr>' +
+          '<th scope="col" class="catalog-done">Read</th><th scope="col">No.</th><th scope="col">Chapter</th>' +
+          '<th scope="col">Type</th><th scope="col" class="catalog-time">Time</th></tr></thead>' + body + '</table>';
       } else target.innerHTML = '<p class="empty">No chapters match your search and filters.</p>';
     }
+  }
+
+  function catalogRow(lesson) {
+    var done = BookProgress.isComplete(lesson.id);
+    var tags = [].concat(lesson.tools, lesson.chains, lesson.protocols).filter(Boolean);
+    return '<tr class="catalog-row"' + (done ? ' data-complete' : '') + '>' +
+      '<td class="catalog-done"><input type="checkbox" data-read-toggle="' + escapeAttr(lesson.id) + '"' + (done ? ' checked' : '') +
+      ' aria-label="Mark ' + escapeAttr(lesson.title) + ' as read"></td>' +
+      '<td class="catalog-number">' + lessonCode(lesson) + '</td>' +
+      '<td class="catalog-title"><a href="' + lessonUrl(lesson) + '">' + escapeHtml(lesson.title) + '</a>' +
+      (tags.length ? '<span class="catalog-tags">' + tags.map(escapeHtml).join(' · ') + '</span>' : '') + '</td>' +
+      '<td class="catalog-type">' + escapeHtml(lesson.type) + '</td>' +
+      '<td class="catalog-time">' + escapeHtml((lesson.time || '').replace(' minutes', ' min')) + '</td></tr>';
   }
 
   function renderLesson() {

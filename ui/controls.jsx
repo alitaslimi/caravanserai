@@ -20,23 +20,7 @@ function SearchInput({ selector, placeholder }) {
   );
 }
 
-function Facets({ groups }) {
-  return groups.map(({ key, label, options }) => (
-    <fieldset className="facet" key={key}>
-      <legend>{label}</legend>
-      <div>
-        {options.map(([value, title]) => (
-          <Button key={value} variant="outline" size="sm" data-facet={key} data-value={value} aria-pressed={false}>{title}</Button>
-        ))}
-      </div>
-    </fieldset>
-  ));
-}
-
 window.BookUI = {
-  facets(element, groups) {
-    mount(element, <Facets groups={groups} />);
-  },
   completion(element, complete) {
     mount(element, <Button data-complete-toggle="" aria-pressed={complete}><Check aria-hidden="true" /><span>{complete ? "Mark incomplete" : "Mark complete"}</span></Button>);
   },
