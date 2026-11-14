@@ -7,7 +7,7 @@
   function brandMark() {
     return '<svg class="brand-mark" viewBox="0 0 16 16" aria-hidden="true">' +
       '<path fill="currentColor" fill-rule="evenodd" d="M0 0h16v16h-6v-4H6v4H0zM4 4v8h8V4z"/>' +
-      '<rect x="7" y="7" width="2" height="2" fill="currentColor"/></svg>';
+      '<rect class="brand-well" x="6" y="6" width="4" height="4"/></svg>';
   }
 
   function escapeText(value) {
@@ -69,39 +69,86 @@
         return '<a href="' + link[0] + '"' + active + '>' + link[1] + '</a>';
       }).join(''),
       '</nav>',
-      '<button type="button" class="theme-toggle" data-theme-toggle>',
-      '<svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>',
-      '<svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
-      '</button>',
+      themeMenu(),
       '</div>',
       '</div>'
     ].join('');
-    bindThemeToggle(mount.querySelector('[data-theme-toggle]'));
+    bindThemeMenu(mount.querySelector('[data-theme-menu]'));
   }
 
-  // Theme: html[data-theme] overrides the system preference; the choice is per browser.
+  // Reader themes, e-reader style. html[data-theme] holds an explicit choice (saved per
+  // browser); with none, the system's light/dark preference picks White or Dim.
   var THEME_KEY = 'caravanserai-theme';
+  var THEMES = [
+    ['white', 'White', '#ffffff', '#111a16'],
+    ['paper', 'Paper', '#f6efdf', '#2a2317'],
+    ['dim', 'Dim', '#15202b', '#e7ecf0'],
+    ['black', 'Black', '#000000', '#ededed']
+  ];
 
-  function currentTheme() {
-    var chosen = document.documentElement.dataset.theme;
-    if (chosen === 'light' || chosen === 'dark') return chosen;
-    return window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  function themeMenu() {
+    return '<div class="theme-menu" data-theme-menu>' +
+      '<button type="button" class="theme-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="theme-options" title="Reading theme">' +
+      '<span aria-hidden="true">Aa</span><span class="visually-hidden">Reading theme</span></button>' +
+      '<div class="theme-options" id="theme-options" role="menu" hidden>' +
+      '<p>Reading theme</p>' +
+      THEMES.map(function (theme) {
+        return '<button type="button" class="theme-option" role="menuitemradio" aria-checked="false" data-theme-value="' + theme[0] + '">' +
+          '<span class="theme-swatch" style="background:' + theme[2] + ';color:' + theme[3] + '" aria-hidden="true">Aa</span>' +
+          '<span>' + theme[1] + '</span></button>';
+      }).join('') +
+      '<button type="button" class="theme-option theme-option-system" role="menuitemradio" aria-checked="false" data-theme-value="">' +
+      '<span class="theme-swatch" style="background:linear-gradient(135deg,#ffffff 50%,#15202b 50%)" aria-hidden="true"></span>' +
+      '<span>Match system</span></button>' +
+      '</div></div>';
   }
 
-  function bindThemeToggle(button) {
-    function label() {
-      var next = currentTheme() === 'dark' ? 'light' : 'dark';
-      button.setAttribute('aria-label', 'Switch to ' + next + ' theme');
-      button.title = 'Switch to ' + next + ' theme';
+  function bindThemeMenu(menu) {
+    var button = menu.querySelector('.theme-toggle');
+    var list = menu.querySelector('.theme-options');
+    var options = Array.prototype.slice.call(list.querySelectorAll('[data-theme-value]'));
+
+    function sync() {
+      var chosen = document.documentElement.dataset.theme || '';
+      options.forEach(function (option) {
+        option.setAttribute('aria-checked', String(option.dataset.themeValue === chosen));
+      });
     }
-    label();
-    button.addEventListener('click', function () {
-      var next = currentTheme() === 'dark' ? 'light' : 'dark';
-      document.documentElement.dataset.theme = next;
-      try { localStorage.setItem(THEME_KEY, next); } catch (err) {}
-      label();
+    function setOpen(open) {
+      list.hidden = !open;
+      button.setAttribute('aria-expanded', String(open));
+      if (open) (list.querySelector('[aria-checked="true"]') || options[0]).focus();
+    }
+
+    sync();
+    button.addEventListener('click', function () { setOpen(list.hidden); });
+    options.forEach(function (option) {
+      option.addEventListener('click', function () {
+        var value = option.dataset.themeValue;
+        if (value) document.documentElement.dataset.theme = value;
+        else delete document.documentElement.dataset.theme;
+        try {
+          if (value) localStorage.setItem(THEME_KEY, value);
+          else localStorage.removeItem(THEME_KEY);
+        } catch (err) {}
+        sync();
+        setOpen(false);
+        button.focus();
+      });
     });
-    if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', label);
+    list.addEventListener('keydown', function (event) {
+      var index = options.indexOf(document.activeElement);
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        options[(index + (event.key === 'ArrowDown' ? 1 : options.length - 1)) % options.length].focus();
+      }
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && !list.hidden) { setOpen(false); button.focus(); }
+    });
+    document.addEventListener('click', function (event) {
+      if (!list.hidden && !menu.contains(event.target)) setOpen(false);
+    });
   }
 
   document.addEventListener('DOMContentLoaded', function () {

@@ -10,6 +10,22 @@
     return 'lesson.html?id=' + encodeURIComponent(lesson.id);
   }
 
+  // Each open stop gets its own colour, like lines on a metro map. Observable 10
+  // (d3-scale-chromatic, ISC) plus Tableau 10's red so eleven open stops stay distinct.
+  // Used for marks only (lines, nodes, swatches, bars), never for text.
+  var STOP_COLORS = ['#4269d0', '#efb118', '#ff725c', '#6cc5b0', '#3ca951', '#ff8ab7', '#a463f2', '#97bbf5', '#9c6b4e', '#9498a0', '#e15759'];
+
+  function stopColor(number) {
+    var phase = PHASES.find(function (item) { return item.number === number; });
+    if (!phase || !phaseLessons(number).length) return '';
+    return STOP_COLORS[PHASES.filter(function (item) { return item.number < number && phaseLessons(item.number).length; }).length % STOP_COLORS.length];
+  }
+
+  function stopStyle(number) {
+    var color = stopColor(number);
+    return color ? ' style="--stop:' + color + '"' : '';
+  }
+
   function phaseLessons(number) {
     return LESSONS.filter(function (lesson) { return lesson.phaseNumber === number; });
   }
@@ -32,7 +48,7 @@
       }
       var read = chapters.filter(function (lesson) { return BookProgress.isComplete(lesson.id); }).length;
       var isCurrent = currentPhase && currentPhase.number === phase.number;
-      return '<li class="nav-stop"><details' + (isCurrent ? ' open' : '') + '>' +
+      return '<li class="nav-stop"' + stopStyle(phase.number) + '><details' + (isCurrent ? ' open' : '') + '>' +
         '<summary class="nav-stop-head"><span class="nav-stop-number">' + pad(phase.number) + '</span>' +
         '<span class="nav-stop-title">' + escapeHtml(phase.title) + '</span>' +
         '<span class="nav-stop-count">' + read + '/' + chapters.length + '</span></summary>' +
@@ -104,9 +120,14 @@
     }).join('');
 
     // Hero strip: the whole road at a glance; each node jumps to (and opens) its stop.
-    document.querySelector('[data-route-strip]').innerHTML = '<ol>' + PHASES.map(function (phase) {
+    var segments = PHASES.slice(0, -1).map(function (phase, index) {
+      var from = (index / (PHASES.length - 1) * 100).toFixed(3) + '%';
+      var to = ((index + 1) / (PHASES.length - 1) * 100).toFixed(3) + '%';
+      return (stopColor(phase.number) || 'var(--rule)') + ' ' + from + ' ' + to;
+    }).join(', ');
+    document.querySelector('[data-route-strip]').innerHTML = '<ol style="--strip-line: linear-gradient(to right, ' + segments + ')">' + PHASES.map(function (phase) {
       var state = stopState(phase);
-      return '<li data-state="' + state + '"' + (phase.number === (target && target.phaseNumber) && next ? ' data-here' : '') + '>' +
+      return '<li data-state="' + state + '"' + stopStyle(phase.number) + (phase.number === (target && target.phaseNumber) && next ? ' data-here' : '') + '>' +
         '<a href="#' + escapeAttr(phase.slug) + '" title="Stop ' + pad(phase.number) + ' · ' + escapeAttr(phase.title) + '">' +
         '<span class="strip-node" aria-hidden="true"></span>' +
         '<span class="strip-number">' + pad(phase.number) + '</span>' +
@@ -151,7 +172,7 @@
       : '<ul class="stop-topics">' + phase.topics.map(function (topic) {
           return '<li>' + escapeHtml(topic) + '</li>';
         }).join('') + '</ul>';
-    return '<li class="stop" data-state="' + state + '">' +
+    return '<li class="stop" data-state="' + state + '"' + stopStyle(phase.number) + '>' +
       '<details id="' + escapeAttr(phase.slug) + '"' + (open ? ' open' : '') + '>' +
       '<summary class="stop-head">' +
       '<span class="stop-node" aria-hidden="true"></span>' +
@@ -258,7 +279,7 @@
         var all = phaseLessons(phase.number);
         var planned = showPlanned && !all.length && (!selected.phase || selected.phase === String(phase.number));
         if (!chapters.length && !planned) return '';
-        var head = '<tr class="catalog-stop"><th colspan="5" scope="rowgroup"><a href="index.html#' + escapeAttr(phase.slug) + '">' +
+        var head = '<tr class="catalog-stop"' + stopStyle(phase.number) + (all.length ? '' : ' data-planned') + '><th colspan="5" scope="rowgroup"><a href="index.html#' + escapeAttr(phase.slug) + '">' +
           '<span class="catalog-stop-number">Stop ' + pad(phase.number) + '</span>' +
           '<span class="catalog-stop-title">' + escapeHtml(phase.title) + '</span></a>' +
           '<span class="catalog-stop-meta">' + (all.length
@@ -313,7 +334,7 @@
     mount.innerHTML = [
       '<article class="reader">',
       '<header class="lesson-head">',
-      '<p class="docs-breadcrumb"><a href="index.html#' + escapeAttr(lesson.phaseSlug) + '">Stop ' + pad(lesson.phaseNumber) + ' · ' + escapeHtml(lesson.phase) + '</a></p>',
+      '<p class="docs-breadcrumb"' + stopStyle(lesson.phaseNumber) + '><a href="index.html#' + escapeAttr(lesson.phaseSlug) + '">Stop ' + pad(lesson.phaseNumber) + ' · ' + escapeHtml(lesson.phase) + '</a></p>',
       '<h1>' + escapeHtml(lesson.title) + '</h1>',
       '<div class="lesson-band">',
       '<dl class="lesson-facts">',
@@ -322,7 +343,7 @@
       lesson.time ? fact('Reading', lesson.time) : '',
       lesson.status && lesson.status !== 'complete' ? fact('Status', lesson.status.charAt(0).toUpperCase() + lesson.status.slice(1)) : '',
       '</dl>',
-      '<div class="lesson-progress" data-lesson-progress>' + stopProgressHtml(lesson) + '</div>',
+      '<div class="lesson-progress"' + stopStyle(lesson.phaseNumber) + ' data-lesson-progress>' + stopProgressHtml(lesson) + '</div>',
       '</div>',
       metaHtml(lesson),
       '</header>',
