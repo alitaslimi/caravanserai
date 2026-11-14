@@ -12,13 +12,13 @@ Build the first route around a single bounded EVM dataset. Keep the block range,
 
 **Lab.** Follow a transaction through its block, receipt, logs, and internal calls. Write the key and ordering contract for each table. Compare field presence by transaction type and chain era.
 
-**Field notes.** A field declared by a provider may be empty, populated only for one transaction type, or historically meaningless on an L2. In the pre-Nitro trace investigation, audit coverage by block first, then use receipts and transaction status to classify the exceptions. In the trace-value corruption case, values clustered near the unsigned boundary, giving a testable hypothesis about signed decoding.
+**Field notes.** A field declared by a provider may be empty, populated only for one transaction type, or historically meaningless in one chain era. Audit coverage by block first, then use receipts and transaction status to classify exceptions. Values clustered near an integer boundary provide a testable hypothesis about signed decoding; demonstrate this with a synthetic fixture.
 
 ## 02 RPC and Historical State
 
 **Lab.** Resolve an hourly cutoff to the last eligible block. Pin the block for contract reads and compare supply or balance results to an independently reconstructed series. Record the chain, block, method, and response.
 
-**Field notes.** The multichain supply pipeline used Alchemy as its RPC provider. Historical state access, trace access, and receipt access can have different limits. Teach readers to probe those capabilities separately and report gaps where a network or era lacks coverage.
+**Field notes.** Alchemy, dRPC, and other RPC providers can expose different historical-state, trace, receipt, and batch capabilities by chain and plan. Teach readers to probe those capabilities separately and report gaps where a network or era lacks coverage.
 
 ## 03 Bulk Extraction and Ingestion
 
@@ -36,7 +36,7 @@ Build the first route around a single bounded EVM dataset. Keep the block range,
 
 **Lab.** Build a staging model, a conformed intermediate, and a published fact. Simulate a quiet market, a new token, a late correction, and a historical source replay. Verify the result against a bounded full recomputation.
 
-**Field notes.** Match the watermark key to the stream that can advance or be added independently. Model-head and source-tip lookbacks address different problems. Ingested range history can expose old writes, but a quiet output can leave its watermark stationary and trigger broad scans. Compare append, keyed replacement, and partition replacement with the actual generated statements. Pair the duplicate-row incident with the later replica and adapter investigations. Treat a successful mutation status as an execution observation and verify the resulting key counts separately.
+**Field notes.** Match the watermark key to the stream that can advance or be added independently. Model-head and source-tip lookbacks address different problems. Ingested range history can expose old writes, but a quiet output can leave its watermark stationary and trigger broad scans. Compare append, keyed replacement, and partition replacement with the actual generated statements. Use a synthetic replicated-write fixture to show why a successful mutation status is an execution observation and resulting key counts require separate verification.
 
 **Case study sequence.**
 
@@ -48,7 +48,7 @@ Build the first route around a single bounded EVM dataset. Keep the block range,
 
 **Lab.** Decode an event from raw bytes and compare it against a second decoder by full key and typed field. Include a signed amount, a missing optional field, and a change in ABI or deployment.
 
-**Field notes.** GMX's EventEmitter example illustrates a nested payload and version-dependent keys. Fluid illustrates why provider-decoded coverage needs checking per emitter and event. Proxy detection distinguishes bytecode-embedded implementations from storage-based proxies. Preserve create and upgrade history for point-in-time classifications. Where a protocol derives an identifier from its fields, recompute it as a self-consistency check.
+**Field notes.** Use a synthetic generic emitter to illustrate nested payloads and version-dependent keys. Provider-decoded coverage needs checking per emitter and event. Proxy detection distinguishes bytecode-embedded implementations from storage-based proxies. Preserve create and upgrade history for point-in-time classifications. Where a contract derives an identifier from its fields, recompute it as a self-consistency check.
 
 ## 07 Production Pipelines
 
@@ -60,7 +60,7 @@ Build the first route around a single bounded EVM dataset. Keep the block range,
 
 **Lab.** Start with bounded counts, move to key differences, then compare payloads with aligned types. Inject a missing interval, an exact duplicate, and a conflicting version. Report which evidence supports each finding.
 
-**Field notes.** Match cutoffs and grain before comparing sources. Inspect internal gaps by bucket. Use inexpensive probes to narrow a large audit before exact scans. Record when two downstream results share a source. The August Dune count comparison is an example of coarse corroboration. The November decoder methodology gives greater weight to self-consistency, an independent decode, and independently indexed records.
+**Field notes.** Match cutoffs and grain before comparing sources. Inspect internal gaps by bucket. Use inexpensive probes to narrow a large audit before exact scans. Record when two downstream results share a source. Public indexed datasets can provide coarse corroboration, while self-consistency, an independent decode, and independently indexed records provide stronger evidence.
 
 ## 09 Protocol & Chain Analytics
 
@@ -85,4 +85,4 @@ Produce a reproducible extract, raw tables, decoded staging, one protocol fact, 
 
 ## Evidence to preserve during drafting
 
-Keep the original question, rejected approaches, failed hypotheses, measurement grain and cutoff, decisive check, and open follow-ups with each case. Preserve competing explanations until the notes establish which held on the tested version and settings. Where the archive contains several sessions about an incident, connect them chronologically so an early workaround and a later root-cause finding remain distinguishable.
+Keep the original question, rejected approaches, failed hypotheses, measurement grain and cutoff, decisive check, and open follow-ups in private research notes. Published lessons keep the reusable mechanism and rebuild it from synthetic or public evidence. Preserve competing explanations until the example establishes which held on the tested version and settings.

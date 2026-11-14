@@ -34,7 +34,7 @@
       "Fetch blocks, receipts, logs, and internal execution",
       "Resolve a timestamp to a block and read historical state",
       "Chunk requests and resume without gaps or duplicate writes",
-      "Compare provider capabilities and historical coverage",
+      "Compare Alchemy, dRPC, and other provider capabilities by method and historical coverage",
       "Cross-check balances and supply against contract state"
     ]
   },
@@ -48,7 +48,8 @@
       "Normalize binary, hex, and timestamps at the ingestion boundary",
       "Record completed ranges and checkpoint after durable writes",
       "Benchmark bounded extraction and typed loading",
-      "Compare JSON-RPC and indexed extraction with Alchemy and HyperSync"
+      "Compare JSON-RPC and indexed extraction with provider-neutral keys",
+      "Use Envio HyperSync with explicit field contracts and replay checkpoints"
     ]
   },
   {
@@ -76,7 +77,8 @@
       "Choose watermarks per chain, market, token, or event stream",
       "Handle quiet streams, new partitions, late records, and source backfills",
       "Compare append, keyed replacement, and partition overwrite",
-      "Test compiled SQL, bounded outputs, and actual write behavior"
+      "Test compiled SQL, bounded outputs, and actual write behavior",
+      "Separate production, developer, and CI schemas with permissions as well as naming"
     ]
   },
   {
@@ -104,7 +106,8 @@
       "Diagnose freshness from data and executed SQL",
       "Size backfill chunks against measured resource limits",
       "Propagate bounded repairs through downstream consumers",
-      "Validate and promote isolated models while the scheduler runs"
+      "Validate and promote isolated models while the scheduler runs",
+      "Pin revisions, bound concurrency with pools, and fail closed on unverifiable artifacts"
     ]
   },
   {
@@ -118,7 +121,8 @@
       "Reconcile counts, keys, and values at the same cutoff",
       "Use stratified samples and bounded whole-history checks",
       "Distinguish regression baselines from independent references",
-      "Report affected coverage, severity, and remaining uncertainty"
+      "Report affected coverage, severity, and remaining uncertainty",
+      "Run cheap critical checks hourly and broader reconciliation on slower cadences"
     ]
   },
   {

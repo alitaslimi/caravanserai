@@ -5,7 +5,7 @@ phaseNumber: 8
 lessonNumber: 1
 type: "Case Study"
 status: "draft"
-tools: []
+tools: ["JSON-RPC"]
 chains: []
 protocols: []
 datasets: []
@@ -31,9 +31,9 @@ Start with ranges of transaction-bearing blocks and find blocks with no traces. 
 }
 ```
 
-## Field note
+## Coverage note
 
-An Arbitrum audit initially identified 67,513 cases for classification. The notes report that 46 remained outside the expected categories after reviewing the era and execution context. Another check compared raw and warehouse rows and found a count difference explained by deduplication. Keep these observations distinct. One addresses coverage and the other addresses storage multiplicity.
+Keep execution coverage and storage multiplicity as separate questions. A provider-era gap, an excluded trace type, and a warehouse duplicate can all change counts for different reasons. First classify missing keys by chain era and transaction outcome; then compare physical rows, logical keys, and conflicting payload versions independently.
 
 ## Lab
 

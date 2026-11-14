@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: stg_value_changed
+    description: One synthetic ValueChanged event per canonical log position.
+    columns:
+      - name: chain_id
+        tests: [not_null]
+      - name: block_number
+        tests: [not_null]
+      - name: transaction_index
+        tests: [not_null]
+      - name: log_index
+        tests: [not_null]
+      - name: delta_raw
+        description: Signed integer in the contract's raw unit.
+        tests: [not_null]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - chain_id
+            - block_number
+            - transaction_index
+            - log_index

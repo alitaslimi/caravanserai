@@ -16,18 +16,18 @@ time: "15 minutes"
 
 ## Verify the result of each write
 
-A delete-and-insert strategy depends on the delete seeing the same replacement keys as the insert. In one replicated warehouse incident, the delete's subquery read the incoming key set before it was visible to that replica. The insert then added the replacement rows alongside the old rows. A completed mutation and a successful model run both appeared in the logs.
+A delete-and-insert strategy depends on the delete seeing the same replacement keys as the insert. In a replicated warehouse, the delete's subquery can read the staged key set before it is visible to the replica executing the mutation. The insert then adds replacement rows alongside surviving old rows. A completed mutation and successful model run establish that statements ran; only a key audit establishes the resulting grain.
 
 ```flow
 {
-  "caption": "Failure path observed in a replicated ClickHouse deployment.",
+  "caption": "A possible failure path for keyed replacement on a replicated warehouse.",
   "steps": ["Stage replacement rows", "Delete reads an incomplete key set", "Old rows survive", "Insert adds new rows", "Key audit finds duplicates"]
 }
 ```
 
-## Field note
+## Verification note
 
-The initial comparison found duplicate-producing runs in 7 of 180 runs before an adapter upgrade and 0 of 188 during the upgrade test. The later notes recorded a recurrence. Use that sequence to distinguish a clean observation window from a guarantee. Record which adapter and effective configuration the scheduler actually ran.
+A clean observation window after an adapter or configuration change is evidence, not a guarantee. Record the adapter version and effective scheduler configuration, then monitor new duplicate keys per run. Test the exact engine and topology used in production with synthetic data; do not infer distributed visibility semantics from a single-node test.
 
 ## Lab
 

@@ -31,9 +31,9 @@ Check the dashboard query, the relation it reads, the job that writes that relat
 }
 ```
 
-## Field note
+## Failure pattern
 
-A dashboard was reading an unscheduled mart while hourly intermediates were fresh. The query rewrites matched the old mart where both were complete. A separate comparison against a supply series exposed a different problem. Staging had 1,832 rows where the source had 1,828, including a duplicated large transfer. A smaller residual stayed unexplained after accounting for those duplicates.
+A dashboard can remain stale while upstream intermediates are current if it reads an unscheduled or retired mart. Separately, a fresh table can still be wrong because of duplicate or missing keys. Diagnose freshness from the exact relations and executed query revision, then run correctness checks independently. Do not treat a recent timestamp as proof of accurate values.
 
 Check label uniqueness before joining. With the ClickHouse settings used in the session, an unmatched string could be empty rather than NULL. Normalize missing labels before applying an Other bucket.
 

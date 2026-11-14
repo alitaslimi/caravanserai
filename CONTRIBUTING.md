@@ -5,6 +5,7 @@ Caravanserai is a personal field guide, but improvements are welcome when they m
 ## Before changing content
 
 - Read [docs/AUTHORING.md](docs/AUTHORING.md) for the lesson format and validation checklist.
+- Read [docs/PUBLICATION_SAFETY.md](docs/PUBLICATION_SAFETY.md) before adapting private operational experience.
 - Check [ROADMAP.md](ROADMAP.md) for the intended curriculum location.
 - Preserve the distinction between authored content and generated site data.
 
@@ -22,4 +23,4 @@ npm run build
 python -m http.server 8000 --directory site
 ```
 
-Check the homepage, curriculum, one representative lesson, and the glossary. Do not commit credentials, private URLs, generated `site/data.js`, or machine-specific artifacts.
+Check the homepage, curriculum, one representative lesson, and the glossary. Do not commit credentials, private URLs, organization-specific identifiers or measurements, generated `site/data.js`, or machine-specific artifacts.

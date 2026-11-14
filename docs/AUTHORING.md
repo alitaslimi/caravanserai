@@ -2,11 +2,13 @@
 
 Lessons should turn practical experience into material another person can understand, reproduce, and question.
 
+Read [Publication safety](PUBLICATION_SAFETY.md) before adapting private work. Caravanserai publishes reusable mechanisms and verification methods, not organization-specific incidents, identifiers, measurements, or infrastructure.
+
 ## Shape the curriculum
 
 Edit `curriculum.json` when adding, renaming, or reordering a curriculum section or its planned topics. This manifest drives the route map on the homepage. Keep it at the level of durable learning outcomes; lesson details belong in Markdown.
 
-Use the [chapter briefs](CHAPTER_BRIEFS.md) for lab and case study material. For each incident, record the expected behavior, the observation that contradicted it, and the check that verified the explanation or repair. Name the stack and tested settings when they affect the result.
+Use the [chapter briefs](CHAPTER_BRIEFS.md) for lab and case study material. For each case, record the expected behavior, the observation that contradicted it, and the check that verified the explanation or repair. Name public tools and tested settings when they affect the result. Rebuild private cases as synthetic fixtures or independently reproducible public-chain examples.
 
 Every lesson's `phaseNumber` and phase directory slug must match one manifest entry. The build validates this relationship so the roadmap and authored material cannot silently drift apart.
 
@@ -61,6 +63,8 @@ A useful lesson usually includes:
 7. A bridge to the next topic.
 
 Prefer precise claims, explicit table grain, named data sources, and examples that can be rerun. Keep secrets, private endpoints, credentials, and production identifiers out of the repository.
+
+Exact production counts, dates, failure rates, schedules, costs, and distinctive incident chronologies are also private even when they contain no credential. Replace them with labelled synthetic values unless they come from a cited public dataset.
 
 ## Code and outputs
 

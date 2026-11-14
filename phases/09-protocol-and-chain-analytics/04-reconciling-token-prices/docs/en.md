@@ -33,9 +33,9 @@ For a vault token, one candidate price is the underlying asset price multiplied 
 }
 ```
 
-## Field note
+## Source-coverage note
 
-In the session, a token already present in the mart through its vault NAV was treated as an existing token when a market feed was added. The catch-up logic skipped the new feed's historical rows because it checked the token at the merged level. Track coverage per source and token so a newly qualified feed can trigger a repair. A rebuilt NAV input also revised history beyond the published model's three-hour rewrite window. Compare both outputs outside the recent window before declaring a migration complete.
+A token already present through one price source is not necessarily complete when a new source becomes eligible. Track progress per source and token rather than only at the merged-token level. When an upstream source revises history beyond the published model's rewrite window, derive and rebuild the affected interval explicitly before declaring the migration complete.
 
 ## Lab
 

@@ -11,6 +11,7 @@ Curriculum content is Markdown. The static pages use shadcn/ui controls rendered
 - Static pages and the Markdown content build can evolve independently of the UI components.
 - New dependencies require a concrete capability that the platform cannot reasonably provide.
 - Examples should be reproducible and grounded in real onchain work.
+- Private operational experience must be generalized into synthetic or independently reproducible public examples.
 
 ## Repository map
 
@@ -48,7 +49,7 @@ The build fails early when a lesson is missing required metadata or contains inv
 
 ## Add content
 
-Read [docs/AUTHORING.md](docs/AUTHORING.md) before adding or changing lessons. The short version is:
+Read [docs/AUTHORING.md](docs/AUTHORING.md) and [docs/PUBLICATION_SAFETY.md](docs/PUBLICATION_SAFETY.md) before adding or changing lessons. The short version is:
 
 ```bash
 scripts/scaffold-lesson.sh 00-setup-and-tooling 02-wallets-rpcs-and-explorers "Wallets, RPCs, and Explorers"

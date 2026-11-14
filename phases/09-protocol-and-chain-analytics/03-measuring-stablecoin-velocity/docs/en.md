@@ -35,9 +35,9 @@ For the velocity measure used in this project, sum transfer volume over complete
 }
 ```
 
-## Field note
+## Metric note
 
-The gap mattered because end-of-window market cap was about 1.65 times the period average. Using average daily volume with that same end-of-window denominator would change the unit without fixing the mismatch. The audit also found symbol collisions across bridged tokens and inflated transfer volume from some mint and burn activity. Group by a canonical token identity and document exclusions.
+An end-of-window denominator and a period-average numerator describe different time bases. Changing total volume to average daily volume does not fix that mismatch. Group bridged or wrapped deployments by a documented canonical identity, and state whether mint, burn, bridge, exchange, and internal treasury flows are included.
 
 ## Lab
 

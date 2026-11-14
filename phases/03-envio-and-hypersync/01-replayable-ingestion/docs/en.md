@@ -31,9 +31,9 @@ A provider client selects a chain, block range, and fields. A mapping stage norm
 }
 ```
 
-## Field note
+## Provider note
 
-The HyperSync pipeline separated streaming, mapping, and the ClickHouse loader. The wire format could expose binary values where downstream code expected hexadecimal strings. Block timestamps required enrichment for records whose feed supplied only a block number. The session also compared declared fields with actual responses across networks and eras. A schema matrix should record both the declared type and whether representative responses populate it.
+HyperSync clients may expose binary values where an RPC-oriented pipeline expects hexadecimal strings. Some record types may also require block timestamp enrichment. Keep streaming, normalization, and loading as separate stages, and maintain a source-to-target field matrix containing the declared type, observed type, nullability, normalization rule, and representative coverage across chains and historical eras.
 
 ## Lab
 

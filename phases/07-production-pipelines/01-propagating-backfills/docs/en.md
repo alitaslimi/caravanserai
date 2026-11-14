@@ -31,9 +31,9 @@ A corrected raw batch may predate every downstream model's lookback. For each co
 }
 ```
 
-## Field note
+## Repair note
 
-The historical repair session used a chunked scan of 255 ranges to isolate missing or duplicate keys. It reused the model's compiled SQL for the repair and counted candidate inserts first. A materialized view that was absent during a raw backfill needed its own repair. The investigation also found that a checksum could differ because nullable and non-nullable values had different types, so the comparison normalized types before interpreting the result.
+Use chunked range scans to isolate missing or duplicate keys, reuse the model's compiled logic where practical, and count candidate writes before changing data. An insert-triggered materialized view that was absent during a raw replay needs a separate catch-up path. Normalize nullable and non-nullable values to aligned types before interpreting checksum differences.
 
 ## Lab
 

@@ -18,27 +18,27 @@ time: "15 minutes"
 
 For a warehouse query, record the predicates, rows and bytes read, peak memory, and elapsed time. Compare queries at the same cutoff and validate output equality. A faster elapsed time can coexist with more work, especially when caching or concurrency differs.
 
-## Field note
+## Failure pattern
 
-One ClickHouse rewrite made block bounds arrive through a join and read 42% more bytes even though elapsed time improved. The repair rendered bounded predicates for the sort-key prefix and measured bytes read again. In another session, an ingestion range ledger returned an old block-zero range. It pushed a quiet incremental model back to a full scan until that range aged out.
+A block bound expressed as a literal or scalar predicate can prune the leading sort-key range, while an equivalent bound derived through a join may not. An ingestion-range ledger can also make a quiet model scan old history when one broad replay range remains eligible. Compare plans and scan counters, and test an empty range set so it produces no source scan rather than an unbounded fallback.
 
 ```bars
 {
-  "caption": "Observed ClickHouse scans in the ingested-ranges session. Each bar is the share of granules read in its own run. Different model states are shown, so this is not a controlled latency benchmark.",
+  "caption": "Synthetic scan shares for three watermark states. These demonstrate the comparison method, not a production benchmark.",
   "unit": "%",
   "max": 100,
   "rows": [
     [
-      "Quiet model after backfill (2929/2929)",
+      "Quiet model after broad replay",
       100
     ],
     [
-      "Busy model (49/2921)",
-      1.68
+      "Busy model near source tip",
+      2
     ],
     [
-      "Quiet model after the range expired (84/2924)",
-      2.87
+      "Quiet model after replay range expires",
+      3
     ]
   ]
 }

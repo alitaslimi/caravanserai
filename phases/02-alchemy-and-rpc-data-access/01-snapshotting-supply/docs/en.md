@@ -31,9 +31,9 @@ For an hourly EVM supply observation, find the last canonical block at or before
 }
 ```
 
-## Field note
+## Provider note
 
-In the multichain supply project, nine daily checks matched transfer-derived supply to the unit on the chains sampled. That supported reusing the existing daily series for those deployments. It did not establish parity for every token design or give hourly observations. The same session recorded per-item throttle errors in successful HTTP batch responses. A client that checked only HTTP status missed those failures.
+Alchemy, dRPC, and other JSON-RPC services expose the same core Ethereum methods, but historical-state depth, trace methods, batch limits, archival coverage, and throttling behavior can differ by provider, chain, and plan. Probe each capability independently. A batch can return HTTP 200 while individual JSON-RPC items contain errors, so match responses by `id` and retry failed items rather than treating the HTTP status as the batch result.
 
 ## Lab
 
