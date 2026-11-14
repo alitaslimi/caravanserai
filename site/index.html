@@ -6,9 +6,10 @@
   <title>Caravanserai | Field Notes on Onchain Data</title>
   <meta name="description" content="A living field guide to blockchains, data engineering, and turning public ledgers into meaningful insight.">
   <script>try { var t = localStorage.getItem('caravanserai-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
-  <link rel="stylesheet" href="ui.css">
-  <link rel="stylesheet" href="components.css">
-  <link rel="stylesheet" href="style.css?v=theme1">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="ui.css?v=identity1">
+  <link rel="stylesheet" href="components.css?v=identity1">
+  <link rel="stylesheet" href="style.css?v=identity1">
 </head>
 <body data-page="home">
   <a class="skip-link" href="#content">Skip to content</a>
@@ -20,6 +21,7 @@
       <p class="lede">A field guide to extracting chain history, modeling protocol activity, and keeping analytical tables correct in production.</p>
       <p>Start with a single transaction. Follow it from its block to its receipt, logs, and internal calls. Those records show different parts of execution, and the differences matter when you build a balance or TVL metric.</p>
       <div class="manual-actions"><a class="primary-btn" data-start-reading href="lesson.html">Start reading <span aria-hidden="true">&rarr;</span></a><a href="catalog.html">Search the book</a></div>
+      <nav class="route-strip" data-route-strip aria-label="Stops on the route"></nav>
       <p class="route-summary" data-route-summary></p>
     </section>
     <section id="curriculum" class="manual-section" aria-labelledby="route-title">
@@ -31,8 +33,8 @@
   </main>
   <script src="data.js?v=figures1"></script>
   <script src="progress.js?v=docs1"></script>
-  <script src="header.js?v=theme1"></script>
-  <script src="ui.js"></script>
-  <script src="app.js?v=theme1"></script>
+  <script src="header.js?v=identity1"></script>
+  <script src="ui.js?v=identity1"></script>
+  <script src="app.js?v=identity1"></script>
 </body>
 </html>

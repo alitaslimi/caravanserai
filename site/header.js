@@ -3,6 +3,48 @@
     return location.pathname.split('/').pop() || 'index.html';
   }
 
+  // Walled courtyard with a gate in the south wall and a well at the centre (see favicon.svg).
+  function brandMark() {
+    return '<svg class="brand-mark" viewBox="0 0 16 16" aria-hidden="true">' +
+      '<path fill="currentColor" fill-rule="evenodd" d="M0 0h16v16h-6v-4H6v4H0zM4 4v8h8V4z"/>' +
+      '<rect x="7" y="7" width="2" height="2" fill="currentColor"/></svg>';
+  }
+
+  function escapeText(value) {
+    return String(value).replace(/[&<>"]/g, function (ch) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch];
+    });
+  }
+
+  function renderFooter() {
+    if (typeof BOOK === 'undefined' || document.querySelector('.site-footer')) return;
+    var built = new Date(BOOK.generatedAt);
+    var lines = BOOK.subtitle.split(/(?<=\.)\s+/);
+    var footer = document.createElement('footer');
+    footer.className = 'site-footer';
+    footer.id = 'colophon';
+    footer.innerHTML = [
+      '<div class="footer-inner">',
+      '<div class="footer-sign">',
+      '<a class="brand" href="index.html">' + brandMark() + '<span class="brand-text">' + escapeText(BOOK.title) + '</span></a>',
+      '<p class="footer-epigraph">' + lines.map(function (line) { return '<span>' + escapeText(line) + '</span>'; }).join('') + '</p>',
+      '</div>',
+      '<nav class="footer-nav" aria-label="Footer">',
+      '<a href="index.html#curriculum">The route</a><a href="catalog.html">Catalog</a><a href="glossary.html">Glossary</a>',
+      BOOK.sourceBaseUrl ? '<a href="' + escapeText(BOOK.sourceBaseUrl) + '">Source</a>' : '',
+      '</nav>',
+      '<p class="footer-ledger">',
+      (typeof PHASES !== 'undefined' ? PHASES.length + ' stops · ' : '') +
+      (typeof LESSONS !== 'undefined' ? LESSONS.length + ' chapters · ' : '') +
+      (typeof GLOSSARY !== 'undefined' ? GLOSSARY.length + ' terms · ' : '') +
+      (isNaN(built) ? '' : 'Built <time datetime="' + escapeText(BOOK.generatedAt) + '">' +
+        built.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + '</time>'),
+      '</p>',
+      '</div>'
+    ].join('');
+    document.body.appendChild(footer);
+  }
+
   function renderHeader() {
     var mount = document.querySelector('[data-header]');
     if (!mount) return;
@@ -17,7 +59,7 @@
     mount.innerHTML = [
       '<div class="header-inner">',
       '<a class="brand" href="index.html" aria-label="Caravanserai home">',
-      '<span class="brand-mark" aria-hidden="true"></span>',
+      brandMark(),
       '<span class="brand-text">Caravanserai</span>',
       '</a>',
       '<div class="header-tools">',
@@ -62,5 +104,8 @@
     if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', label);
   }
 
-  document.addEventListener('DOMContentLoaded', renderHeader);
+  document.addEventListener('DOMContentLoaded', function () {
+    renderHeader();
+    renderFooter();
+  });
 })();

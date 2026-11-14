@@ -102,14 +102,39 @@
     document.querySelector('[data-route]').innerHTML = PHASES.map(function (phase) {
       return routeStop(phase, phase.number === currentPhase);
     }).join('');
+
+    // Hero strip: the whole road at a glance; each node jumps to (and opens) its stop.
+    document.querySelector('[data-route-strip]').innerHTML = '<ol>' + PHASES.map(function (phase) {
+      var state = stopState(phase);
+      return '<li data-state="' + state + '"' + (phase.number === (target && target.phaseNumber) && next ? ' data-here' : '') + '>' +
+        '<a href="#' + escapeAttr(phase.slug) + '" title="Stop ' + pad(phase.number) + ' · ' + escapeAttr(phase.title) + '">' +
+        '<span class="strip-node" aria-hidden="true"></span>' +
+        '<span class="strip-number">' + pad(phase.number) + '</span>' +
+        '<span class="visually-hidden">' + escapeHtml(phase.title) + ', ' + STATE_LABELS[state] + '</span></a></li>';
+    }).join('') + '</ol>';
+
+    window.addEventListener('hashchange', openHashedStop);
     if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+  }
+
+  function openHashedStop() {
+    var stop = location.hash && document.getElementById(location.hash.slice(1));
+    if (stop && stop.tagName === 'DETAILS') stop.open = true;
+  }
+
+  var STATE_LABELS = { planned: 'Planned', done: 'Completed', active: 'In progress', todo: 'Not started' };
+
+  function stopState(phase) {
+    var chapters = phaseLessons(phase.number);
+    var read = chapters.filter(function (lesson) { return BookProgress.isComplete(lesson.id); }).length;
+    return !chapters.length ? 'planned' : read === chapters.length ? 'done' : read ? 'active' : 'todo';
   }
 
   function routeStop(phase, open) {
     var chapters = LESSONS.filter(function (lesson) { return lesson.phaseNumber === phase.number; });
     var read = chapters.filter(function (lesson) { return BookProgress.isComplete(lesson.id); }).length;
-    var state = !chapters.length ? 'planned' : read === chapters.length ? 'done' : read ? 'active' : 'todo';
-    var stateLabel = { planned: 'Planned', done: 'Completed', active: 'In progress', todo: 'Not started' }[state];
+    var state = stopState(phase);
+    var stateLabel = STATE_LABELS[state];
     var meta = chapters.length
       ? chapters.length + (chapters.length === 1 ? ' chapter' : ' chapters') + ' · ' +
         formatDuration(chapters.reduce(function (sum, lesson) { return sum + minutes(lesson); }, 0))
@@ -280,7 +305,7 @@
     if (!mount) return;
     renderDocsNav(lesson);
     if (!lesson) {
-      mount.innerHTML = '<section class="panel"><h1>Lesson Not Found</h1><p>Open the catalog and choose an available lesson.</p></section>';
+      mount.innerHTML = '<section class="panel"><h1>Lesson Not Found</h1><p><a href="catalog.html">Open the catalog</a> and choose an available lesson.</p></section>';
       return;
     }
 
