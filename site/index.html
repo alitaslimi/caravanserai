@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Caravanserai | Field Notes on Onchain Data</title>
+  <meta name="description" content="A living field guide to blockchains, data engineering, and turning public ledgers into meaningful insight.">
+  <link rel="stylesheet" href="ui.css">
+  <link rel="stylesheet" href="components.css">
+  <link rel="stylesheet" href="style.css?v=figures1">
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header" data-header></header>
+  <main id="content" class="manual-home" tabindex="-1">
+    <section class="manual-intro">
+      <p class="eyebrow">Onchain data infrastructure</p>
+      <h1>Caravanserai</h1>
+      <p class="lede">A field guide to extracting chain history, modeling protocol activity, and keeping analytical tables correct in production.</p>
+      <p>Start with a single transaction. Follow it from its block to its receipt, logs, and internal calls. Those records show different parts of execution, and the differences matter when you build a balance or TVL metric.</p>
+      <div class="manual-actions"><a class="primary-btn" data-start-reading href="lesson.html">Start reading <span aria-hidden="true">&rarr;</span></a><a href="catalog.html">Search the book</a></div>
+    </section>
+    <section id="chapters" class="manual-section" aria-labelledby="chapters-title">
+      <div class="manual-heading"><h2 id="chapters-title">Read the chapters</h2><span class="eyebrow" data-book-count></span></div>
+      <ol class="index-list" data-home-lessons></ol>
+    </section>
+    <section id="curriculum" class="manual-section" aria-labelledby="outline-title">
+      <div class="manual-heading"><h2 id="outline-title">Curriculum</h2></div>
+      <div class="curriculum-index" data-phase-overview></div>
+    </section>
+  </main>
+  <script src="data.js?v=figures1"></script>
+  <script src="progress.js?v=docs1"></script>
+  <script src="header.js?v=manual1"></script>
+  <script src="ui.js"></script>
+  <script src="app.js?v=figures1"></script>
+</body>
+</html>

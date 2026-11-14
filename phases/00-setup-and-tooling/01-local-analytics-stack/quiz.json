@@ -1,0 +1,35 @@
+[
+  {
+    "question": "Why start with a local analytics stack before live blockchain data?",
+    "options": [
+      "It creates a fast loop for loading, querying, transforming, and checking data.",
+      "It removes the need to understand schemas.",
+      "It guarantees every onchain metric is correct.",
+      "It replaces production data warehouses."
+    ],
+    "answer": 0,
+    "explanation": "A local stack gives you a low-friction place to practice the workflow before production concerns add complexity."
+  },
+  {
+    "question": "What is DuckDB especially useful for in this scaffold?",
+    "options": [
+      "Running local analytical SQL over files.",
+      "Signing blockchain transactions.",
+      "Deploying smart contracts.",
+      "Serving a frontend application."
+    ],
+    "answer": 0,
+    "explanation": "DuckDB is a strong local analytical engine, especially for querying CSV and Parquet fixtures."
+  },
+  {
+    "question": "Which question should you ask first when inspecting a new table?",
+    "options": [
+      "What is the grain of this table?",
+      "Can the table be made into a chart?",
+      "Does the table have the most rows?",
+      "Can the table be renamed?"
+    ],
+    "answer": 0,
+    "explanation": "Grain defines what one row represents. Without it, joins and metrics become fragile."
+  }
+]

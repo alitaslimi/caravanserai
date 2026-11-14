@@ -1,0 +1,20 @@
+# Generated curriculum bundle
+site/data.js
+site/ui.js
+site/ui.css
+site/components.css
+site/assets/*.woff2
+
+# Local editorial index of private session notes
+docs/session-research.local.md
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Tool and operating-system artifacts
+node_modules/
+.DS_Store
+Thumbs.db
+*.log

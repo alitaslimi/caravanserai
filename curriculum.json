@@ -1,0 +1,163 @@
+[
+  {
+    "number": 0,
+    "slug": "00-setup-and-tooling",
+    "title": "Orientation & Local Tooling",
+    "summary": "Set up a reproducible workspace for bounded queries, inspectable results, and isolated changes.",
+    "topics": [
+      "Build a local analytics stack with a small chain fixture",
+      "Define grain, keys, and checks before running SQL",
+      "Trace configuration from environment to client and database",
+      "Verify the effective destination before running a write",
+      "Review changes from the exact source revision"
+    ]
+  },
+  {
+    "number": 1,
+    "slug": "01-blockchains-as-data",
+    "title": "Blockchains as Data",
+    "summary": "Read a ledger as related datasets with different keys, ordering rules, and coverage guarantees.",
+    "topics": [
+      "Blocks, transactions, receipts, logs, and traces",
+      "Chain identity, natural keys, and execution order",
+      "Reorgs, finality, and time boundaries",
+      "Distinguish absent, unsupported, and corrupt fields",
+      "Audit coverage by chain era and transaction type"
+    ]
+  },
+  {
+    "number": 2,
+    "slug": "02-alchemy-and-rpc-data-access",
+    "title": "RPC and Historical State",
+    "summary": "Retrieve raw records and state at an explicit block, then record what the provider actually returned.",
+    "topics": [
+      "Fetch blocks, receipts, logs, and internal execution",
+      "Resolve a timestamp to a block and read historical state",
+      "Chunk requests and resume without gaps or duplicate writes",
+      "Compare provider capabilities and historical coverage",
+      "Cross-check balances and supply against contract state"
+    ]
+  },
+  {
+    "number": 3,
+    "slug": "03-envio-and-hypersync",
+    "title": "Bulk Extraction and Ingestion",
+    "summary": "Extract bounded ranges and preserve enough source evidence to replay a load or compare providers.",
+    "topics": [
+      "Select fields and inspect returned schemas",
+      "Normalize binary, hex, and timestamps at the ingestion boundary",
+      "Record completed ranges and checkpoint after durable writes",
+      "Benchmark bounded extraction and typed loading",
+      "Compare JSON-RPC and indexed extraction with Alchemy and HyperSync"
+    ]
+  },
+  {
+    "number": 4,
+    "slug": "04-clickhouse-for-onchain-data",
+    "title": "Warehousing Onchain Data",
+    "summary": "Choose types, physical keys, and write strategies that preserve data and support bounded scans.",
+    "topics": [
+      "Represent EVM integers, nullable fields, and decimals exactly",
+      "Choose sorting and partition keys for query and repair paths",
+      "Distinguish logical uniqueness from storage deduplication",
+      "Test insert-triggered transforms and historical catch-up",
+      "Measure pruning, rows read, bytes read, and memory",
+      "Use ClickHouse to demonstrate warehouse trade-offs"
+    ]
+  },
+  {
+    "number": 5,
+    "slug": "05-dbt-for-onchain-analytics",
+    "title": "Transformation and Incremental Modeling",
+    "summary": "Publish stable analytical interfaces and make each incremental model's update contract explicit.",
+    "topics": [
+      "Separate source normalization, conformance, and published facts",
+      "Use dbt for lineage, contracts, and compiled SQL inspection",
+      "Choose watermarks per chain, market, token, or event stream",
+      "Handle quiet streams, new partitions, late records, and source backfills",
+      "Compare append, keyed replacement, and partition overwrite",
+      "Test compiled SQL, bounded outputs, and actual write behavior"
+    ]
+  },
+  {
+    "number": 6,
+    "slug": "06-decoding-and-semantic-models",
+    "title": "Decoding & Semantic Models",
+    "summary": "Translate bytes and execution into records that retain provenance across contract upgrades and chain deployments.",
+    "topics": [
+      "Decode indexed topics, signed words, and dynamic payloads",
+      "Scope events by emitter, signature, chain, and deployment era",
+      "Compare raw and provider-decoded coverage before migrating",
+      "Track contract creation, proxies, upgrades, and ABI versions",
+      "Keep raw units and event roles explicit",
+      "Validate with independent decodes and contract-derived invariants"
+    ]
+  },
+  {
+    "number": 7,
+    "slug": "07-production-pipelines",
+    "title": "Production Pipelines",
+    "summary": "Operate the pipeline through restarts, historical repairs, and scheduled deployments.",
+    "topics": [
+      "Coordinate history and the live tail at an explicit boundary",
+      "Orchestrate dependencies, tests, and writer concurrency",
+      "Diagnose freshness from data and executed SQL",
+      "Size backfill chunks against measured resource limits",
+      "Propagate bounded repairs through downstream consumers",
+      "Validate and promote isolated models while the scheduler runs"
+    ]
+  },
+  {
+    "number": 8,
+    "slug": "08-data-quality-and-verification",
+    "title": "Data Quality & Verification",
+    "summary": "Build evidence that an analytical table is complete, unique at its declared grain, and faithful to its sources.",
+    "topics": [
+      "Compare declared fields with observed values",
+      "Find gaps, exact duplicates, and conflicting versions",
+      "Reconcile counts, keys, and values at the same cutoff",
+      "Use stratified samples and bounded whole-history checks",
+      "Distinguish regression baselines from independent references",
+      "Report affected coverage, severity, and remaining uncertainty"
+    ]
+  },
+  {
+    "number": 9,
+    "slug": "09-protocol-and-chain-analytics",
+    "title": "Protocol & Chain Analytics",
+    "summary": "Model the economics of tokens and protocols with explicit grain, attribution, units, and metric definitions.",
+    "topics": [
+      "Token balances, supply, holders, labels, and price coverage",
+      "DEX fills, signed amounts, pool identity, and router boundaries",
+      "Liquidity, custody, position state, and valuation",
+      "Lending markets, bridge legs, and incentive claims",
+      "Governance, address activity, and gas attribution",
+      "Stock and flow windows, stablecoin velocity, and daily accrual"
+    ]
+  },
+  {
+    "number": 10,
+    "slug": "10-publishing-analytics",
+    "title": "Publishing Analytics",
+    "summary": "Expose metrics with clear time windows, freshness, and reconciliation from warehouse to dashboard.",
+    "topics": [
+      "Choose complete periods and distinguish zero from missing",
+      "Reconcile grouped charts and headline totals",
+      "Design metric endpoints, freshness checks, and partial-failure behavior",
+      "Compare new queries against matched historical outputs",
+      "Publish audit reports and distinguish usage from billed cost"
+    ]
+  },
+  {
+    "number": 11,
+    "slug": "11-capstone-systems",
+    "title": "Capstone Systems",
+    "summary": "Build and operate a pipeline that can demonstrate correctness and recover from a bounded failure.",
+    "topics": [
+      "Load a chain slice through two extraction paths and reconcile it",
+      "Decode and conform one protocol into an auditable mart",
+      "Inject a duplicate batch and repair the affected history",
+      "Publish a metric with freshness and source coverage visible"
+    ]
+  }
+]
