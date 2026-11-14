@@ -345,24 +345,71 @@
     if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
   }
 
+  // Lessons whose prose mentions a term (whole words, case-insensitive, optional plural).
+  function lessonsUsing(term) {
+    var pattern = new RegExp('(^|[^a-z0-9])' + term.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+') + 's?(?![a-z0-9])', 'i');
+    return LESSONS.filter(function (lesson) { return pattern.test(lesson.body); });
+  }
+
   function renderGlossary() {
     var search = document.querySelector('[data-glossary-search]');
     var target = document.querySelector('[data-glossary-list]');
+    var jump = document.querySelector('[data-glossary-jump]');
+    var count = document.querySelector('[data-glossary-count]');
     if (!target) return;
+    var terms = GLOSSARY.map(function (item) {
+      return { item: item, letter: item.term.charAt(0).toUpperCase(), used: lessonsUsing(item.term) };
+    }).sort(function (a, b) { return a.item.term.localeCompare(b.item.term, undefined, { sensitivity: 'base' }); });
+    var USED_LIMIT = 4;
     if (search) search.addEventListener('input', draw);
+    target.addEventListener('click', function (event) {
+      var more = event.target.closest('[data-term-more]');
+      if (!more) return;
+      var expanded = more.parentNode.classList.toggle('is-expanded');
+      more.setAttribute('aria-expanded', String(expanded));
+      more.textContent = expanded ? 'Show fewer' : '+' + more.parentNode.querySelectorAll('[data-extra]').length + ' more';
+    });
     draw();
+    if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
 
     function draw() {
       var q = (search && search.value || '').toLowerCase().trim();
-      var rows = GLOSSARY.filter(function (item) {
-        return !q || item.term.toLowerCase().indexOf(q) !== -1 || item.definition.toLowerCase().indexOf(q) !== -1;
+      var rows = terms.filter(function (entry) {
+        return !q || entry.item.term.toLowerCase().indexOf(q) !== -1 || entry.item.definition.toLowerCase().indexOf(q) !== -1;
       });
-      target.innerHTML = rows.map(function (item) {
-        return '<section class="term" id="' + escapeAttr(item.slug) + '">' +
-          '<h2>' + escapeHtml(item.term) + '</h2>' +
-          '<div class="markdown-body">' + markdownToHtml(item.definition) + '</div>' +
-          '</section>';
+      var letters = unique(rows.map(function (entry) { return entry.letter; }));
+      if (count) count.textContent = (rows.length === terms.length ? terms.length : rows.length + ' of ' + terms.length) + ' terms';
+      if (jump) {
+        jump.innerHTML = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(function (letter) {
+          return letters.indexOf(letter) !== -1
+            ? '<a href="#letter-' + letter + '">' + letter + '</a>'
+            : '<span aria-hidden="true">' + letter + '</span>';
+        }).join('');
+      }
+      target.innerHTML = letters.map(function (letter) {
+        return '<section class="glossary-letter" id="letter-' + letter + '" aria-labelledby="letter-' + letter + '-title">' +
+          '<h2 class="glossary-letter-title" id="letter-' + letter + '-title">' + letter + '</h2><div>' +
+          rows.filter(function (entry) { return entry.letter === letter; }).map(termHtml).join('') +
+          '</div></section>';
       }).join('') || '<p class="empty">No terms match your search.</p>';
+    }
+
+    function termHtml(entry) {
+      var item = entry.item;
+      return '<article class="term" id="' + escapeAttr(item.slug) + '">' +
+        '<h3><a class="term-anchor" href="#' + escapeAttr(item.slug) + '">' + escapeHtml(item.term) +
+        '<span aria-hidden="true">#</span></a></h3>' +
+        '<div class="markdown-body">' + markdownToHtml(item.definition) + '</div>' +
+        (entry.used.length
+          ? '<p class="term-used"><span>Appears in</span>' + entry.used.map(function (lesson, index) {
+              return '<a href="' + lessonUrl(lesson) + '"' + (index >= USED_LIMIT ? ' data-extra' : '') + '>' +
+                '<span class="term-used-code">' + lessonCode(lesson) + '</span> ' + escapeHtml(lesson.title) + '</a>';
+            }).join('') +
+            (entry.used.length > USED_LIMIT
+              ? '<button type="button" class="term-more" data-term-more aria-expanded="false">+' + (entry.used.length - USED_LIMIT) + ' more</button>'
+              : '') + '</p>'
+          : '') +
+        '</article>';
     }
   }
 

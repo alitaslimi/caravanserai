@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Glossary | Caravanserai</title>
   <meta name="description" content="Glossary for onchain data analytics terms.">
+  <script>try { var t = localStorage.getItem('caravanserai-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
   <link rel="stylesheet" href="ui.css">
   <link rel="stylesheet" href="components.css">
-  <link rel="stylesheet" href="style.css?v=catalog1">
+  <link rel="stylesheet" href="style.css?v=theme1">
 </head>
 <body data-page="glossary">
   <a class="skip-link" href="#content">Skip to content</a>
@@ -17,16 +18,21 @@
       <p class="eyebrow">Caravanserai / Reference</p>
       <h1>Glossary</h1>
     </section>
-    <label class="search-field">
-      <span>Search terms</span>
-      <span data-search-mount="data-glossary-search" data-placeholder="Try trace, ABI, or fact table"></span>
-    </label>
-    <section class="glossary-list" data-glossary-list></section>
+    <p class="catalog-intro">Shared vocabulary for the guide. Each term links to the chapters that use it.</p>
+    <div class="catalog-controls glossary-controls">
+      <label class="search-field">
+        <span>Search terms</span>
+        <span data-search-mount="data-glossary-search" data-placeholder="Try trace, ABI, or fact table"></span>
+      </label>
+      <nav class="glossary-jump" data-glossary-jump aria-label="Jump to letter"></nav>
+    </div>
+    <p class="result-count glossary-count" data-glossary-count role="status"></p>
+    <div class="glossary-list" data-glossary-list></div>
   </main>
   <script src="data.js?v=figures1"></script>
   <script src="progress.js?v=20260831"></script>
-  <script src="header.js?v=manual1"></script>
+  <script src="header.js?v=theme1"></script>
   <script src="ui.js"></script>
-  <script src="app.js?v=catalog1"></script>
+  <script src="app.js?v=theme1"></script>
 </body>
 </html>

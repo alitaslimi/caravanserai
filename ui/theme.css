@@ -5,7 +5,7 @@
 @theme inline {
   --color-background: var(--surface);
   --color-primary: var(--accent);
-  --color-primary-foreground: var(--surface);
+  --color-primary-foreground: var(--on-accent);
   --color-accent: var(--wash);
   --color-accent-foreground: var(--ink);
   --color-muted-foreground: var(--muted);
