@@ -38,3 +38,13 @@ The label project kept all assertions and resolved them separately. Storage dedu
 ## Lab
 
 Assign one address two competing labels for the same namespace and a third label in another namespace. Resolve it at two dates, with the higher-priority assertion expiring in between. Join the resulting dimension to a balance fact and check that the row count and total balance stay stable. A duplicate winning row should fail the join-grain check.
+
+Use `code/resolve_labels.sql` to resolve one assertion per chain, address, namespace, and effective date. The lab passes when the winner is deterministic, expired claims stop applying, and enrichment preserves fact row count and value totals.
+
+## Failure cases to test
+
+- The same hexadecimal address is labeled on the wrong chain.
+- Two equally ranked assertions produce nondeterministic winners.
+- A label changes historically but the dimension stores only its current value.
+- An entity-level attribute is copied to every address without a stated rule.
+- A many-to-many label join multiplies balances or revenue.

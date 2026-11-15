@@ -1,0 +1,5 @@
+[
+  {"question":"Why is a chain-wide watermark unsafe for a newly registered market?","options":["The new market may need history before the chain watermark.","Markets have no deployment block.","It prevents all overlap.","It changes event signatures."],"answer":0,"explanation":"Progress is scoped to the extraction subject, not merely the chain."},
+  {"question":"What proves a quiet market is current?","options":["Verified source coverage through the cutoff, not the last event height.","A synthetic event.","The largest market's watermark.","A current token price."],"answer":0,"explanation":"Sparse streams can be complete despite having no recent events."},
+  {"question":"How should emitter roles be scoped?","options":["By chain, market, role, and deployment era.","By event signature alone.","By token symbol.","By current head only."],"answer":0,"explanation":"The same signature can appear across contracts and roles."}
+]

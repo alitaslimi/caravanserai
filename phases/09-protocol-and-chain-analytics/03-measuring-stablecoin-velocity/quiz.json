@@ -1,0 +1,5 @@
+[
+  {"question":"What denominator aligns with transfer volume summed across a period?","options":["Average market capitalization over the same complete days.","Market cap from an unrelated current day.","The maximum transfer.","The number of holders."],"answer":0,"explanation":"The stock denominator must represent the same time window as the flow numerator."},
+  {"question":"What should a missing price day do?","options":["Mark coverage incomplete or apply a documented bounded fill rule.","Become a zero price silently.","Disappear from the expected day count.","Increase transfer volume."],"answer":0,"explanation":"Coverage policy must be explicit because missing days can bias both numerator and denominator."},
+  {"question":"Why classify mint and burn transfers?","options":["They can represent supply change rather than circulating economic activity.","They lack transaction hashes.","They always have zero value.","They occur only offchain."],"answer":0,"explanation":"Velocity depends on an eligibility definition for transfer flow."}
+]

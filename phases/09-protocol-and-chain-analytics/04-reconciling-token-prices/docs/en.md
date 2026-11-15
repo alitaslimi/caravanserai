@@ -40,3 +40,13 @@ A token already present through one price source is not necessarily complete whe
 ## Lab
 
 Give one token three hourly NAV prices and add a market price for the oldest hour. Apply a market-first policy with a one-hour refresh window. Find the row that stays stale and use its hour as the start of a bounded reprice. Verify that the source changes only where the candidate is valid.
+
+Implement source precedence in `code/price_precedence.sql`. Require one winning candidate per token and hour, retain rejected candidates for audit, and emit staleness plus source coverage beside the price.
+
+## Failure cases to test
+
+- A vendor mapping changes but the incremental model never revisits old hours.
+- A vault candidate reads from the merged table it is intended to populate.
+- Share price and underlying price use incompatible decimal scales.
+- A fresh low-priority source defeats a stale high-priority source without a documented rule.
+- A token has candidates but no candidate inside the allowed staleness window.

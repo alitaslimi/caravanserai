@@ -38,3 +38,13 @@ A new market needs history from its deployment block even when another market on
 ## Lab
 
 Market A is loaded through block 120. Market B launches at block 105 and emits at blocks 106 and 118. Both share a chain, and the source tip is 125. A chain-wide cutoff of 120 loses both B events. Compare a per-market plan, then replay the overlap and verify distinct event keys. In the production checks, parity was measured at the staging head to keep lag separate from decoding defects.
+
+Use `code/market_ranges.sql` to produce one extraction range per deployment. The lab passes when a new market begins at its own deployment block, quiet markets retain verified coverage, and overlapping replay does not create duplicate event keys.
+
+## Failure cases to test
+
+- Two market roles emit events with the same signature but different meaning.
+- A new market inherits the chain-wide watermark and loses its history.
+- No events occur during a verified interval and progress appears stale.
+- A market upgrade changes the relevant emitter.
+- Reserve metadata is read from current state and applied retroactively.

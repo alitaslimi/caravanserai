@@ -1,0 +1,5 @@
+[
+  {"question":"Why separate token identity from vendor feed identity?","options":["A feed mapping can change without changing the chain asset being priced.","Vendor IDs are block hashes.","Tokens never move chains.","It removes source precedence."],"answer":0,"explanation":"The asset is the analytical subject; a vendor ID is one mapping to a candidate source."},
+  {"question":"What must a published price retain?","options":["The winning source, observation time, and staleness status.","Only a floating-point value.","The provider credential.","Every downstream query."],"answer":0,"explanation":"Provenance and freshness are necessary to interpret the value."},
+  {"question":"What is wrong with a vault candidate reading the merged output it feeds?","options":["It creates a circular dependency.","It guarantees no prices.","It changes the token address.","It prevents decimal normalization."],"answer":0,"explanation":"Candidates should derive from independent inputs before precedence is applied."}
+]

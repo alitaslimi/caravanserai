@@ -1,0 +1,5 @@
+[
+  {"question":"Why use a full outer join for bridge legs?","options":["It preserves sends and receives that have not yet found a counterpart.","It guarantees token prices.","It removes chain identity.","It converts endpoint IDs automatically."],"answer":0,"explanation":"Unmatched legs are meaningful operational states and must remain observable."},
+  {"question":"Why namespace a protocol transfer ID?","options":["The same identifier can occur in different bridge deployments or domains.","It makes amounts equal.","It removes late arrivals.","It replaces transaction hashes."],"answer":0,"explanation":"A namespace prevents unrelated deployments from colliding."},
+  {"question":"How should transaction-local token attribution be represented?","options":["As inferred evidence with ambiguity checks.","As guaranteed protocol truth.","Without the transaction identity.","Only after dropping unmatched legs."],"answer":0,"explanation":"Co-location is useful but can be ambiguous when several token movements occur."}
+]

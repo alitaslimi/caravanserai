@@ -42,3 +42,13 @@ An end-of-window denominator and a period-average numerator describe different t
 ## Lab
 
 Construct two tokens with the same period volume and average market cap. Give one a rising supply series. Compare both denominator choices and explain which result changes. Repeat with a missing price day and record how the metric reports incomplete coverage.
+
+Use `code/stablecoin_velocity.sql` to keep numerator and denominator on the same complete-day calendar. The result is publishable only when every required day has transfer, supply, and price coverage or the response is explicitly partial.
+
+## Failure cases to test
+
+- Mint and burn transfers inflate the numerator despite not representing circulation.
+- Exchange hot-wallet churn dominates economic transfer volume.
+- Wrapped deployments are double-counted under both local and canonical identity.
+- One missing price day silently reduces both market cap and the day count.
+- Average daily flow is divided by average market cap but labeled period turns.

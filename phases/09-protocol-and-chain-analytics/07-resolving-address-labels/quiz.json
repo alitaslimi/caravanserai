@@ -1,0 +1,5 @@
+[
+  {"question":"What is an address label in this model?","options":["A chain-scoped, sourced assertion valid over an interval.","A permanent property of a hex string.","A block-level metric.","A warehouse partition."],"answer":0,"explanation":"Treating labels as assertions preserves provenance and historical change."},
+  {"question":"Why resolve labels separately from storing assertions?","options":["It preserves evidence while allowing explicit precedence to change.","It removes source identity.","It makes all labels permanent.","It avoids chain scoping."],"answer":0,"explanation":"The published winner is a view over retained claims, not destructive deduplication."},
+  {"question":"What should an enrichment join prove?","options":["Fact grain and value totals remain stable.","Every address receives several winners.","Entity and address grains are identical.","Expired assertions still apply."],"answer":0,"explanation":"A dimension join must not multiply the fact population."}
+]

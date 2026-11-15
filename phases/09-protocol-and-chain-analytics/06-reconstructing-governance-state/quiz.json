@@ -1,0 +1,5 @@
+[
+  {"question":"Why can governance replay need a new anchor after an upgrade?","options":["State may be initialized or corrected without the regular change event.","Every event disappears.","Anchors cannot have block identities.","Upgrades always reset the chain."],"answer":0,"explanation":"A contract observation can establish state that event replay alone cannot derive."},
+  {"question":"What must be recorded about a governance checkpoint coordinate?","options":["Which chain and clock the block number belongs to.","Only its decimal length.","The current token price.","The dashboard cache age."],"answer":0,"explanation":"Some systems checkpoint one chain using another chain's block coordinate."},
+  {"question":"How should pre-upgrade proposals be evaluated?","options":["With the historical era and anchor valid at their snapshot.","With only present-day rules.","Without event order.","Using the latest price."],"answer":0,"explanation":"Historical state reconstruction must preserve era-specific rules."}
+]

@@ -42,3 +42,13 @@ For singleton custody, separate amounts you can attribute from the remainder. A 
 ## Lab
 
 At a fixed block, compare the token balances of a pool contract and a singleton custody contract. For each one, record the holder, the pool identifier, the attribution rule, and any amount you cannot assign. Reconcile the attributed and unattributed amounts to the custody total before applying prices.
+
+Use `code/tvl_reconciliation.sql` with synthetic balances. The lab passes when attributed and unattributed balances reconcile to custody in raw units, every price is at or before the cutoff, and missing prices remain visible rather than becoming zero.
+
+## Failure cases to test
+
+- A pool-creation event points to a factory that never holds the assets.
+- One transaction touches several pools and cannot support deterministic attribution.
+- A rebasing token changes custody without a transfer.
+- A price exists after the cutoff but not at the cutoff.
+- An asset uses a different decimal scale than the assumed default.

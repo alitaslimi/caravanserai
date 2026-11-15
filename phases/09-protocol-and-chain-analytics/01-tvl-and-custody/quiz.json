@@ -1,0 +1,5 @@
+[
+  {"question":"Why does summing historically valued deposits not measure custody TVL at a later cutoff?","options":["It measures flows at different prices rather than current holdings at one cutoff.","Transfers never have amounts.","Custody has no token identity.","Prices cannot be timestamped."],"answer":0,"explanation":"TVL is a stock measured and priced at a common cutoff; deposits and withdrawals are flows."},
+  {"question":"How should ambiguous singleton balances be handled?","options":["Keep them in an unattributed remainder that reconciles to custody.","Assign them to the largest pool.","Drop them before pricing.","Split them equally without evidence."],"answer":0,"explanation":"A visible remainder preserves the custody total without inventing pool attribution."},
+  {"question":"What can expose transfer-replay error?","options":["A historical contract balance read at the same block.","A current price from another day.","A larger block range.","Removing raw units."],"answer":0,"explanation":"An independent state observation tests whether replayed flows reconstruct the stock."}
+]

@@ -38,3 +38,13 @@ The bridge model used one row per transfer and a full outer join to preserve unm
 ## Lab
 
 Create one matched transfer, one send-only transfer, and one ambiguous token attribution. Reconcile the source and destination counts separately. Verify that adding a receive in a later run updates the existing transfer key.
+
+Implement the full outer join in `code/pair_bridge_legs.sql`. The lab passes when unmatched legs survive, a late receive updates one logical transfer, duplicate legs fail a uniqueness check, and source and destination amounts are compared before valuation.
+
+## Failure cases to test
+
+- Protocol message IDs collide across deployments unless namespaced.
+- A destination leg arrives after the source reporting window.
+- Fees make source and destination amounts intentionally different.
+- Token attribution finds several transfers in one transaction.
+- A protocol chain identifier is mapped to the wrong canonical chain ID.

@@ -40,3 +40,13 @@ The reconstruction used a separate adjustment event because the delegation adjus
 ## Lab
 
 Start at an observed value of 80, apply a +7 event, then re-anchor to the contract-observed value of 92 at the upgrade. Apply a later -3 event. The expected result is 89. Check an observation on each side of the upgrade and confirm that the replay only uses events after the corresponding anchor.
+
+Run `code/governance_replay.py` and add an omitted adjustment at the upgrade. The replay must disagree with the checkpoint until a new anchor is introduced. Preserve the coordinate system of each checkpoint rather than assuming every block number belongs to the execution chain.
+
+## Failure cases to test
+
+- A checkpoint stores an L1 block number while events are ordered by L2 height.
+- An upgrade initializes state without the normal change event.
+- A proposal snapshot uses rules from the wrong governance era.
+- Signed adjustments are converted to absolute values.
+- Two events at one block require transaction ordering.
