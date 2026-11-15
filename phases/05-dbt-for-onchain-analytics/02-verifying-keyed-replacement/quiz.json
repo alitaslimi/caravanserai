@@ -1,0 +1,4 @@
+[
+  {"question":"How do you verify an incremental strategy actually replaced keys?","options":["Inspect compiled SQL and test the resulting logical keys.","Read the model config only.","Count source rows only.","Assume the adapter name guarantees it."],"answer":0,"explanation":"Execution behavior and output tests are stronger evidence than configuration intent."},
+  {"question":"What should a repeated bounded batch do?","options":["Leave one current logical result per key.","Double every metric.","Advance an unrelated watermark.","Delete every partition."],"answer":0,"explanation":"Idempotency is tested by replaying identical logical input."}
+]

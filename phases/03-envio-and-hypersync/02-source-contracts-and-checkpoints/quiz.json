@@ -1,0 +1,4 @@
+[
+  {"question":"Why normalize binary and timestamp values at the source boundary?","options":["Downstream models receive stable provider-neutral types.","It removes chain identity.","It guarantees finality.","It avoids recording raw evidence."],"answer":0,"explanation":"A typed boundary isolates client-specific representations."},
+  {"question":"What must a checkpoint prove?","options":["Contiguous durable coverage through a source-identity boundary.","Only the last nonempty event block.","The provider returned HTTP 200 once.","Every future block is final."],"answer":0,"explanation":"Checkpoint progress includes quiet ranges and source identity."}
+]

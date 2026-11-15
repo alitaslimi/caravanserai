@@ -1,0 +1,4 @@
+[
+  {"question":"What belongs in an incremental model contract?","options":["Grain, key, watermark scope, rewrite window, and write strategy.","Only the model filename.","Only the target schema.","A dashboard color palette."],"answer":0,"explanation":"These choices define what changes and how correctness is restored."},
+  {"question":"Why isolate CI and developer schemas with permissions?","options":["Naming alone does not prevent writes to production objects.","It makes SQL compile faster.","It changes chain finality.","It removes the need for tests."],"answer":0,"explanation":"Access control enforces the environment boundary."}
+]

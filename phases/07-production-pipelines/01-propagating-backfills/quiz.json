@@ -1,0 +1,4 @@
+[
+  {"question":"Where should a repair begin?","options":["At the earliest source boundary that can affect the incorrect output.","At the dashboard cache only.","At current head regardless of cause.","At genesis for every issue."],"answer":0,"explanation":"Lineage bounds the necessary source and downstream repair range."},
+  {"question":"When is a backfill complete?","options":["After affected downstream consumers are rebuilt and reconciled.","When extraction starts.","When one source table changes.","When retries are disabled."],"answer":0,"explanation":"A source correction must propagate through every materialized consumer."}
+]

@@ -1,0 +1,4 @@
+[
+  {"question":"How should a historical supply snapshot be anchored?","options":["To an explicit canonical block number and hash.","To latest at query time.","To ingestion time only.","To a price-feed identifier."],"answer":0,"explanation":"An explicit block identity makes state reproducible."},
+  {"question":"What should happen when a provider cannot serve historical state?","options":["Report the capability failure distinctly from a zero value.","Publish zero supply.","Retry without a block tag.","Use current state silently."],"answer":0,"explanation":"Unsupported history is missing evidence, not a measured zero."}
+]

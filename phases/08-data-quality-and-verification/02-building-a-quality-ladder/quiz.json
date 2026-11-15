@@ -1,0 +1,4 @@
+[
+  {"question":"Why use several quality cadences?","options":["Cheap critical checks can run frequently while broad reconciliation runs less often.","Every check has identical cost.","Slow checks are never useful.","Cadence replaces severity."],"answer":0,"explanation":"A tiered ladder balances detection speed with verification cost."},
+  {"question":"What makes a reference independent?","options":["It does not derive from the same transformation path being tested.","It has the same table name.","It runs in the same dbt model.","It uses the same cached output."],"answer":0,"explanation":"Shared logic can make two wrong results agree."}
+]

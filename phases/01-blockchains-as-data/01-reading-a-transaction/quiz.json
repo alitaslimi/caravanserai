@@ -1,0 +1,4 @@
+[
+  {"question":"Which record proves whether an included transaction succeeded?","options":["Its receipt status.","Its wallet nonce alone.","The block timestamp.","The token symbol."],"answer":0,"explanation":"The receipt records execution outcome and emitted logs."},
+  {"question":"Why is transaction hash insufficient as a log key?","options":["One transaction can emit several logs.","Hashes are not hexadecimal.","Logs have no block identity.","Every transaction emits one log."],"answer":0,"explanation":"Log index distinguishes multiple emissions within the transaction or block context."}
+]

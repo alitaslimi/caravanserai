@@ -1,0 +1,4 @@
+[
+  {"question":"When is an extraction range safe to checkpoint?","options":["After its normalized output is durably written and verified.","When the request is queued.","After the first row arrives.","When the worker starts."],"answer":0,"explanation":"Checkpointing must reflect recoverable destination state."},
+  {"question":"What makes a replay safe?","options":["An explicit logical key and idempotent write contract.","A larger timeout only.","Dropping range metadata.","Using ingestion time as identity."],"answer":0,"explanation":"Repeated delivery must leave the same logical result."}
+]

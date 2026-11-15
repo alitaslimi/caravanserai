@@ -1,0 +1,4 @@
+[
+  {"question":"Why can one chain-wide watermark lose new-market history?","options":["The new subject may begin before another subject's progress boundary.","Watermarks remove block hashes.","Markets cannot share chains.","dbt always performs full refreshes."],"answer":0,"explanation":"Progress should be scoped to the unit whose coverage is being advanced."},
+  {"question":"What does an overlap window protect against?","options":["Bounded late or revised source records.","All possible historical revisions.","Incorrect token decimals forever.","Unbounded duplicate joins."],"answer":0,"explanation":"Overlap is a deliberate rewrite window, not a universal completeness guarantee."}
+]

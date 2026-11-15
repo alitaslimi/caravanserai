@@ -19,8 +19,11 @@ Caravanserai is a personal field guide, but improvements are welcome when they m
 
 ```bash
 npm ci
-npm run build
+npm run ci
+docker compose -f examples/reference-stack/docker-compose.yml config
 python -m http.server 8000 --directory site
 ```
+
+Every lesson needs at least two quiz questions with valid answer indexes and explanations. CI also checks directory numbering, publication-safety patterns, the generated site, Python examples, Compose configuration, and public links.
 
 Check the homepage, curriculum, one representative lesson, and the glossary. Do not commit credentials, private URLs, organization-specific identifiers or measurements, generated `site/data.js`, or machine-specific artifacts.

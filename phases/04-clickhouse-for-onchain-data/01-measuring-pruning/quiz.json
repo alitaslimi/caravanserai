@@ -1,0 +1,4 @@
+[
+  {"question":"Which measurements reveal pruning quality?","options":["Rows and bytes read for the same result.","SQL character count.","Number of dashboard colors.","Token decimals."],"answer":0,"explanation":"Pruning reduces storage work while preserving the result."},
+  {"question":"Why record cache conditions in a benchmark?","options":["Warm caches can lower latency without reducing the scan.","Caches change natural keys.","Cold runs cannot be correct.","Cache state determines finality."],"answer":0,"explanation":"Latency alone can misattribute a cache effect to a physical design improvement."}
+]

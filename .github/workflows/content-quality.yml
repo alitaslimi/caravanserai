@@ -1,0 +1,41 @@
+name: Content quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  curriculum:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: npm ci
+      - run: npm run ci
+      - run: docker compose -f examples/reference-stack/docker-compose.yml config
+
+  public-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: lycheeverse/lychee-action@v2.9.0
+        with:
+          args: >-
+            --no-progress
+            --exclude-loopback
+            --max-retries 3
+            --retry-wait-time 2
+            --root-dir .
+            './**/*.md'
+          fail: true
+

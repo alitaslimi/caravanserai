@@ -1,0 +1,4 @@
+[
+  {"question":"Why compare traced transactions with canonical transaction counts?","options":["It exposes missing trace coverage before semantic analysis.","It calculates token prices.","It guarantees all calls succeeded.","It replaces receipts."],"answer":0,"explanation":"Coverage must be established at the source population boundary."},
+  {"question":"How should unsupported historical traces be reported?","options":["As a capability gap for the affected range.","As zero internal calls.","As successful empty traces.","As duplicate transactions."],"answer":0,"explanation":"Unsupported and genuinely empty are different evidence states."}
+]

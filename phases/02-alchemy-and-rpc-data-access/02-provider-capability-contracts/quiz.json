@@ -1,0 +1,4 @@
+[
+  {"question":"How should JSON-RPC batch responses be matched to requests?","options":["By response ID.","By array position.","By latency.","By HTTP header order."],"answer":0,"explanation":"Batch response ordering is not guaranteed."},
+  {"question":"Does a successful eth_blockNumber call prove trace support?","options":["No, trace namespaces and historical coverage require separate probes.","Yes, all methods share capability.","Yes, but only for batches.","No, because blocks cannot be traced."],"answer":0,"explanation":"Core RPC availability does not establish optional trace or archive capabilities."}
+]

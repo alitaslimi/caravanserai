@@ -1,0 +1,4 @@
+[
+  {"question":"What belongs inside an Airflow task retry window?","options":["A bounded transient operation whose repeated write is safe.","An unbounded historical backfill.","A permanent unsupported method.","A manual data-definition choice."],"answer":0,"explanation":"Retries should be bounded, classified, and idempotent."},
+  {"question":"What should a deployment task verify before writing?","options":["The immutable artifact revision it is expected to run.","Only the branch name.","The newest available code.","A dashboard timestamp."],"answer":0,"explanation":"Revision verification prevents silent drift between reviewed and executed code."}
+]

@@ -1,0 +1,4 @@
+[
+  {"question":"Should a ClickHouse ORDER BY tuple be treated as a uniqueness constraint?","options":["No, logical uniqueness must be tested separately.","Yes, MergeTree rejects duplicates.","Yes, if it includes block number.","No, because logs have no key."],"answer":0,"explanation":"Physical ordering and domain uniqueness are separate contracts."},
+  {"question":"What should primarily drive the sorting key?","options":["Repeated query and repair access paths.","Alphabetical field order.","The widest column first.","Provider response order."],"answer":0,"explanation":"The key should improve locality and pruning for actual workloads."}
+]

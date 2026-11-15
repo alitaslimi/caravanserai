@@ -1,0 +1,4 @@
+[
+  {"question":"What should identify the decoder behavior used for a row?","options":["An immutable decoder version and ABI reference.","The current date only.","The provider password.","The dashboard query."],"answer":0,"explanation":"Versioned provenance supports deterministic replay."},
+  {"question":"How should an unknown event signature be handled?","options":["Preserve and classify it as an undecoded coverage gap.","Drop the raw log.","Guess the nearest ABI.","Convert it to zero."],"answer":0,"explanation":"Unknown records are evidence of incomplete decoding, not disposable noise."}
+]

@@ -1,0 +1,4 @@
+[
+  {"question":"What should be checked before blaming a dashboard cache?","options":["The source, transformed, and published cutoffs at each boundary.","Only the browser clock.","The chart color.","The current token symbol."],"answer":0,"explanation":"Freshness can stall at ingestion, transformation, publication, or caching."},
+  {"question":"Why retain the original cutoff on last-known-good data?","options":["Consumers can see that a newly served response contains older data.","It makes stale data current.","It removes the need for status.","It changes the metric definition."],"answer":0,"explanation":"Generation time must not disguise source age."}
+]

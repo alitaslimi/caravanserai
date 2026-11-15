@@ -1,0 +1,4 @@
+[
+  {"question":"What should an event decoder test besides a happy-path payload?","options":["Signed values, indexed fields, malformed data, and wrong emitters.","Only the event name.","Only current token prices.","Only transaction latency."],"answer":0,"explanation":"Boundary and negative cases prevent plausible misdecodes."},
+  {"question":"Why retain raw units beside scaled values?","options":["Scaling metadata can be corrected without refetching bytes.","Raw integers are always prices.","Decimals identify the block.","Scaled values cannot be queried."],"answer":0,"explanation":"Raw values preserve source evidence and exact arithmetic."}
+]

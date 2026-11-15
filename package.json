@@ -5,7 +5,10 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "node site/build.js && esbuild ui/controls.jsx --bundle --minify --outfile=site/ui.js --loader:.woff2=file --asset-names=assets/[name]-[hash] && tailwindcss -i ui/theme.css -o site/components.css --minify"
+    "build": "node site/build.js && esbuild ui/controls.jsx --bundle --minify --outfile=site/ui.js --loader:.woff2=file --asset-names=assets/[name]-[hash] && tailwindcss -i ui/theme.css -o site/components.css --minify",
+    "check:content": "node scripts/validate-content.mjs",
+    "test:examples": "python scripts/run_python_checks.py",
+    "ci": "npm run check:content && npm run build && npm run test:examples"
   },
   "dependencies": {
     "@fontsource-variable/geist": "5.3.0",
