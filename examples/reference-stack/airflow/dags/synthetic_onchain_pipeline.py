@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from airflow.sdk import dag, task
+from range_contract import plan_ranges as build_ranges, validate_contiguous
 
 DBT_DIR = Path("/opt/airflow/dbt")
 
@@ -15,6 +16,7 @@ DBT_DIR = Path("/opt/airflow/dbt")
     start_date=datetime(2026, 1, 1, tzinfo=timezone.utc),
     catchup=False,
     max_active_runs=1,
+    render_template_as_native_obj=True,
     default_args={"retries": 2, "retry_delay": timedelta(minutes=2)},
     params={"from_block": 100000, "to_block": 100100, "expected_revision": "reference-stack-v1"},
     tags=["education", "synthetic", "onchain"],
@@ -29,12 +31,7 @@ def synthetic_onchain_pipeline():
 
     @task(pool="rpc_requests")
     def plan_ranges(from_block: int, to_block: int, span: int = 25) -> list[dict[str, int]]:
-        if from_block >= to_block:
-            raise ValueError("expected a non-empty half-open range")
-        return [
-            {"from_block": start, "to_block": min(start + span, to_block)}
-            for start in range(from_block, to_block, span)
-        ]
+        return build_ranges(from_block, to_block, span)
 
     @task(pool="rpc_requests")
     def extract_range(block_range: dict[str, int]) -> dict[str, int | str]:
@@ -42,12 +39,10 @@ def synthetic_onchain_pipeline():
         return {**block_range, "status": "fixture_available", "row_count": 0}
 
     @task(pool="clickhouse_writers")
-    def commit_contiguous_ranges(results: list[dict[str, int | str]]) -> int:
-        ordered = sorted(results, key=lambda item: int(item["from_block"]))
-        for left, right in zip(ordered, ordered[1:]):
-            if left["to_block"] != right["from_block"]:
-                raise ValueError("range gap or overlap")
-        return int(ordered[-1]["to_block"])
+    def commit_contiguous_ranges(
+        results: list[dict[str, int | str]], expected_start: int, expected_end: int
+    ) -> int:
+        return validate_contiguous(results, expected_start, expected_end)
 
     @task
     def run_dbt_build(committed_end: int) -> int:
@@ -63,7 +58,9 @@ def synthetic_onchain_pipeline():
     revision = validate_revision("{{ params.expected_revision }}")
     ranges = plan_ranges("{{ params.from_block }}", "{{ params.to_block }}")
     extracted = extract_range.expand(block_range=ranges)
-    committed = commit_contiguous_ranges(extracted)
+    committed = commit_contiguous_ranges(
+        extracted, "{{ params.from_block }}", "{{ params.to_block }}"
+    )
     built = run_dbt_build(committed)
     revision >> ranges
     built

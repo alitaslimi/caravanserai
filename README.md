@@ -21,6 +21,7 @@ curriculum.json           Canonical curriculum sections and planned topics
 glossary/                 Shared terms rendered on the glossary page
 phases/                   Curriculum phases and lessons
 scripts/                  Authoring helpers
+examples/reference-stack Runnable ClickHouse, dbt, and Airflow learning stack
 site/                     Static pages, styles, runtime modules, and build script
 ui/                       shadcn/ui components and their Tailwind theme
 LESSON_TEMPLATE.md        Canonical lesson template
@@ -46,6 +47,8 @@ python -m http.server 8000 --directory site
 Open [http://localhost:8000](http://localhost:8000).
 
 The build fails early when a lesson is missing required metadata or contains invalid quiz data.
+
+To run the end-to-end synthetic pipeline locally, follow the [reference stack guide](examples/reference-stack/README.md). It exercises ClickHouse loading, dbt incremental models, reconciliation tests, Airflow range planning, and a bounded repair without requiring an RPC account.
 
 ## Add content
 

@@ -61,6 +61,10 @@ When you introduce blockchain data, always ask:
 
 Create a local scratch database, run the sanity query above, and record the result. In a later lesson, this becomes the place where raw blocks, transactions, logs, and traces are loaded before modeling.
 
+For the complete version of this lab, use `examples/reference-stack`. Start ClickHouse, run the dbt build against the synthetic EVM fixture, and inspect the daily metric. Add the optional Airflow profile only after the warehouse path passes. This progression keeps setup failures separate from orchestration failures.
+
+The reference stack deliberately includes a duplicate-injection drill and range-boundary tests. Preserve the failing check, repair command, and passing rerun as evidence rather than reporting only the final green state.
+
 ## Next Steps
 
 The next lessons should connect this local setup to wallets, RPC endpoints, block explorers, and the first tiny onchain datasets.

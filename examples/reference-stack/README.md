@@ -44,6 +44,15 @@ docker compose logs airflow
 
 The DAG is paused by default. Before running it, create the educational pools described in `airflow/POOLS.md` and unpause `synthetic_onchain_pipeline`.
 
+Confirm Airflow loaded the DAG without import errors:
+
+```bash
+docker compose --profile orchestration exec airflow airflow dags list
+docker compose --profile orchestration exec airflow airflow dags list-import-errors
+```
+
+The DAG uses native parameter rendering so block boundaries reach Python tasks as integers. Its commit task rejects missing outer boundaries, gaps, and overlaps before dbt runs.
+
 ## Inject and repair a duplicate
 
 Insert the fixture range a second time:
@@ -54,6 +63,16 @@ docker compose run --rm dbt build
 ```
 
 The canonical uniqueness test should fail. Repair the bounded fixture range with `scripts/repair_fixture.sql`, rerun dbt, and preserve the failing and passing output as capstone evidence.
+
+## Drill the history and live boundary
+
+Run the range-contract unit tests:
+
+```bash
+python -m unittest discover -s airflow/dags -p "test_*.py"
+```
+
+Then change one planned range in the test fixture to create a gap, an overlap, and a missing first block. Each case must stop the commit boundary. In a real deployment, the live writer must not advance until historical coverage reaches the declared cutover block hash.
 
 ## Environment isolation
 

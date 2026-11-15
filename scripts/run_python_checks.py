@@ -10,7 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 def run(command: list[str], cwd: Path = ROOT) -> None:
     subprocess.run(command, cwd=cwd, env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}, check=True)
 
-for test_file in sorted((ROOT / "phases").rglob("test_*.py")):
+test_files = sorted((ROOT / "phases").rglob("test_*.py"))
+test_files += sorted((ROOT / "examples").rglob("test_*.py"))
+for test_file in test_files:
     run([sys.executable, "-m", "unittest", "discover", "-p", test_file.name], test_file.parent)
 
 examples = [
