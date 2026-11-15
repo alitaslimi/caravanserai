@@ -9,7 +9,7 @@ tools: ["Alchemy"]
 chains: []
 protocols: []
 datasets: []
-time: "15 minutes"
+time: "45 minutes"
 ---
 
 # Snapshotting token supply
@@ -38,3 +38,21 @@ Alchemy, dRPC, and other JSON-RPC services expose the same core Ethereum methods
 ## Lab
 
 Given block timestamps 13:59:50, 13:59:58, and 14:00:12 UTC, use the second block for the 14:00 cutoff. Simulate a batch with one success and one throttled item. Persist the successful observation and retry the failed request by ID.
+
+## Observation model
+
+Separate the requested schedule from the state observation. Several hourly cutoffs can legitimately resolve to the same block on a slow or interrupted chain. Key the contract read by chain, contract, method, arguments, and block hash; map requested timestamps to that observation in a separate table.
+
+Store the raw integer result, decimals or scaling metadata revision, block timestamp, provider family, retrieval time, and finality policy. Supply formulas derived from several contract fields must record every call at the same block. Never combine a historical numerator with a current denominator.
+
+## Failure drill
+
+Return a successful batch containing an archive-state error, a throttled item, and a valid zero supply. The adapter should classify all three differently. Replace the resolved block hash in a simulated reorg and verify that the observation is invalidated and reread rather than silently retaining the old state.
+
+## Acceptance criteria
+
+- Timestamp resolution uses one documented before-or-at boundary rule.
+- Every value is pinned to a block number and hash.
+- Valid zero, unsupported history, and transient failure remain distinct.
+- Batch items reconcile by request ID.
+- Independent supply evidence is compared at the same chain cutoff and units.

@@ -9,7 +9,7 @@ tools: ["ClickHouse","Airflow"]
 chains: []
 protocols: []
 datasets: []
-time: "15 minutes"
+time: "45 minutes"
 ---
 
 # Debugging a stale dashboard
@@ -40,3 +40,21 @@ Check label uniqueness before joining. With the ClickHouse settings used in the 
 ## Lab
 
 Compare old and new dashboard queries on three complete days. Add a partial fourth day and a duplicate label key. Report freshness, row multiplication, and any independent reconciliation gap separately.
+
+## Freshness chain
+
+Record four boundaries for the exact metric revision: accepted source cutoff, transformed cutoff, publication cutoff, and cache generation time. Compare block identities as well as timestamps. A recently generated response can still serve a stale model, and a current model can still be hidden behind an old cache entry.
+
+Trace the actual executed query or stable fingerprint. Dashboard editors, semantic layers, scheduled extracts, and API endpoints can each reference a different relation from the one an operator expects. Verify environment, database, schema, and model revision before changing SQL.
+
+## Failure drill
+
+Keep ingestion current while freezing the published mart, then refresh the cache. The response generation time should advance while its data cutoff remains stale. Next, repair the mart but leave a duplicate label winner; freshness should recover while correctness still fails. The incident report must keep those two states separate.
+
+## Acceptance criteria
+
+- Every displayed metric exposes or links to its data cutoff.
+- Complete periods are distinguished from partial current periods.
+- Headline and grouped values reconcile under identical filters.
+- Cache age and source-data age are independently observable.
+- Missing labels do not multiply rows or silently disappear.
