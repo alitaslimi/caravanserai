@@ -1,0 +1,20 @@
+[
+  {
+    "question": "What is the primary capstone deliverable?",
+    "options": ["A working pipeline plus evidence that it is correct, replayable, and repairable.", "A dashboard screenshot only.", "The largest possible backfill.", "A provider-specific raw schema."],
+    "answer": 0,
+    "explanation": "The capstone evaluates system behavior and evidence across extraction, modeling, operation, and publication."
+  },
+  {
+    "question": "What should happen when a required source partition is missing?",
+    "options": ["Publication should report partial or unavailable according to the contract.", "The metric should silently use zero.", "The cutoff should be moved forward.", "The manifest should be marked complete."],
+    "answer": 0,
+    "explanation": "A required gap cannot safely appear as a complete result."
+  },
+  {
+    "question": "Why compare two extraction paths by canonical keys?",
+    "options": ["Provider payload shapes differ even when they describe the same chain records.", "Canonical keys remove the need for block hashes.", "Every source returns arrays in the same order.", "It guarantees both sources are complete."],
+    "answer": 0,
+    "explanation": "Normalization creates a neutral comparison boundary while coverage still has to be demonstrated."
+  }
+]

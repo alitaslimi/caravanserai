@@ -1,0 +1,30 @@
+{
+  "metric": "synthetic_transfer_count",
+  "grain": "chain_day",
+  "unit": "transfers",
+  "status": "complete",
+  "values": [
+    {
+      "chain_id": 1,
+      "day": "2026-01-15",
+      "value": 37
+    }
+  ],
+  "coverage": {
+    "required_chains": [1],
+    "complete_chains": [1],
+    "missing_dimensions": []
+  },
+  "cutoff": {
+    "block_number": 123456,
+    "block_hash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "block_timestamp": "2026-01-16T00:00:00Z"
+  },
+  "revision": {
+    "metric_definition": "1.0.0",
+    "model": "example-revision"
+  },
+  "generated_at": "2026-01-16T00:07:13Z",
+  "warnings": []
+}
+

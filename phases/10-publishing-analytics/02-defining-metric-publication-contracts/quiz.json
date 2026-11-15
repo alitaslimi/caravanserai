@@ -1,0 +1,21 @@
+[
+  {
+    "question": "When is a published value legitimately zero?",
+    "options": ["When the complete declared population was evaluated and produced no qualifying value.", "Whenever a source timed out.", "Whenever prices are missing.", "Whenever cached data is stale."],
+    "answer": 0,
+    "explanation": "Zero is a measured result; missing, partial, and stale are separate states."
+  },
+  {
+    "question": "Why expose generated_at and the data cutoff separately?",
+    "options": ["A newly generated response can still contain old source data.", "They are always identical.", "The cutoff replaces the metric definition.", "It avoids recording block identity."],
+    "answer": 0,
+    "explanation": "Response generation freshness and source-data freshness answer different questions."
+  },
+  {
+    "question": "How should a top-N grouped chart reconcile with a headline total?",
+    "options": ["Include an explicit remainder group or state that the chart is partial.", "Assume the top groups equal the total.", "Change the headline cutoff.", "Drop groups with zero values."],
+    "answer": 0,
+    "explanation": "The omitted population must remain visible for the grouped presentation to reconcile."
+  }
+]
+

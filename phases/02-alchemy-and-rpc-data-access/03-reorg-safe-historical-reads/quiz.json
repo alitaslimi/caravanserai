@@ -1,0 +1,21 @@
+[
+  {
+    "question": "What makes a historical state read reproducible?",
+    "options": ["Pinning it to a recorded block number and block hash.", "Calling latest twice.", "Recording only the HTTP status.", "Using the fastest provider."],
+    "answer": 0,
+    "explanation": "The block identity fixes the state boundary and can later be checked for canonicality."
+  },
+  {
+    "question": "Where should replay begin after a reorg?",
+    "options": ["At the block after the last verified common ancestor.", "Always at genesis.", "At the current head only.", "At an arbitrary daily boundary."],
+    "answer": 0,
+    "explanation": "The common ancestor bounds the affected range while preserving unaffected history."
+  },
+  {
+    "question": "Why expose a published cutoff separately from the ingested head?",
+    "options": ["Consumers can distinguish provisional data from data accepted by the finality policy.", "It makes block hashes unnecessary.", "It prevents every possible reorg.", "It converts logs into traces."],
+    "answer": 0,
+    "explanation": "Ingestion and publication can intentionally have different latency and stability guarantees."
+  }
+]
+

@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Why is present-day proxy state insufficient for decoding all history?",
+    "options": ["The implementation and ABI may have changed across block intervals.", "A proxy has no address.", "Logs never include topics.", "Block numbers are provider-specific."],
+    "answer": 0,
+    "explanation": "Historical decoding must select the implementation and ABI that were valid when the record was emitted."
+  },
+  {
+    "question": "What should happen when two ABI registry eras match one event?",
+    "options": ["Fail as ambiguous and quarantine the decode.", "Choose the first row returned.", "Drop the raw log.", "Use the newest ABI regardless of block."],
+    "answer": 0,
+    "explanation": "Fail-closed resolution prevents a plausible but historically incorrect decode."
+  },
+  {
+    "question": "What does ABI decoding establish?",
+    "options": ["Typed values encoded by the call or event.", "The final economic metric definition.", "The canonical chain head forever.", "The warehouse partition key."],
+    "answer": 0,
+    "explanation": "Domain roles and economic interpretation belong to a later semantic layer."
+  }
+]

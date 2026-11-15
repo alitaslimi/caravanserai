@@ -47,3 +47,51 @@ A descriptive table used to enrich facts, such as token metadata or protocol lab
 ### incremental model
 
 A model that updates only new or changed records instead of rebuilding the full table every run.
+
+### natural key
+
+The smallest set of domain fields that identifies one logical record, independent of warehouse storage behavior.
+
+### canonical block
+
+The block currently accepted at a chain height under a stated finality policy. A different block hash may previously have been observed at the same height.
+
+### reorganization
+
+A change to the accepted chain history that replaces one or more recent blocks with a different branch.
+
+### finality policy
+
+The rule a pipeline uses to decide which observed blocks are stable enough to publish, such as a finalized tag or a configured confirmation depth.
+
+### half-open range
+
+An interval that includes its start and excludes its end, written `[start, end)`, so adjacent ranges compose without overlap.
+
+### checkpoint
+
+A durable record of contiguous completed work, including enough source identity to validate a restart.
+
+### watermark
+
+A boundary used by an incremental process to select new or changed source records. It is a processing mechanism, not necessarily a completeness guarantee.
+
+### idempotency
+
+The property that repeating an operation with the same logical input leaves the same logical result.
+
+### ABI era
+
+A historical interval during which a particular ABI and decoder revision apply to a contract deployment.
+
+### backpressure
+
+Flow control that slows producers when downstream queues, decoders, or writers approach their configured capacity.
+
+### data cutoff
+
+The latest block or event-time boundary included in a result, recorded separately from the time the result was generated.
+
+### coverage
+
+The declared portion of a source population that was requested, successfully collected, validated, and included in an output.

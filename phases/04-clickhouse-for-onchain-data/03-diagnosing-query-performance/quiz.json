@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Which evidence best shows that a query optimization improved pruning?",
+    "options": ["Lower read_rows and read_bytes with the same result and cutoff.", "A shorter query string.", "A larger memory limit.", "A warm browser cache."],
+    "answer": 0,
+    "explanation": "Rows and bytes read connect the improvement to less storage work while the result check protects correctness."
+  },
+  {
+    "question": "What is the main role of PARTITION BY in a MergeTree table?",
+    "options": ["Data management and pruning at a coarse boundary.", "Declaring row uniqueness.", "Decoding event data.", "Choosing the dbt schema."],
+    "answer": 0,
+    "explanation": "Partitions are coarse storage and lifecycle boundaries; the sorting key drives sparse-index locality."
+  },
+  {
+    "question": "Why aggregate transfers before joining daily prices?",
+    "options": ["It reduces join input to the metric grain.", "It changes every transfer timestamp.", "It removes the need for price coverage checks.", "It guarantees a warm cache."],
+    "answer": 0,
+    "explanation": "Matching both inputs to token-day grain avoids a needlessly large intermediate join."
+  }
+]

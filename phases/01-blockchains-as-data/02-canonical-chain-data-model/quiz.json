@@ -1,0 +1,35 @@
+[
+  {
+    "question": "Why should a canonical block model keep both block number and block hash?",
+    "options": [
+      "The number supports range access while the hash identifies a particular block during reorgs.",
+      "The hash is needed only to calculate token prices.",
+      "The number is unique across every EVM chain.",
+      "The two fields always contain the same value."
+    ],
+    "answer": 0,
+    "explanation": "A block height can have competing observations, while a block hash identifies one particular block." 
+  },
+  {
+    "question": "What is the safest way to add trace information to a one-row-per-log model?",
+    "options": [
+      "Aggregate traces to the required parent grain before joining.",
+      "Join every trace directly to every log in the transaction.",
+      "Join on block timestamp alone.",
+      "Discard the transaction hash."
+    ],
+    "answer": 0,
+    "explanation": "Pre-aggregation prevents an accidental many-to-many multiplication." 
+  },
+  {
+    "question": "Where should a role such as depositor first appear?",
+    "options": [
+      "In a decoded semantic model whose event meaning establishes the role.",
+      "In the raw provider response.",
+      "In every canonical transaction row.",
+      "In the block table."
+    ],
+    "answer": 0,
+    "explanation": "Canonical fields stay provider and protocol neutral; semantic roles belong after decoding." 
+  }
+]

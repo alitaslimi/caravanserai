@@ -1,0 +1,20 @@
+[
+  {
+    "question": "Why use half-open block ranges internally?",
+    "options": ["Adjacent ranges compose without overlap or gaps.", "Every provider requires them.", "They eliminate reorgs.", "They make row counts constant."],
+    "answer": 0,
+    "explanation": "A shared boundary belongs to the second range only, which makes range composition predictable."
+  },
+  {
+    "question": "When should a range checkpoint become committed?",
+    "options": ["After the durable write and range checks succeed.", "When the request starts.", "As soon as an HTTP response arrives.", "Only when the whole chain is loaded."],
+    "answer": 0,
+    "explanation": "Request success does not prove that destination data was durably written."
+  },
+  {
+    "question": "What should happen after a successful range returns zero matching logs?",
+    "options": ["Record the empty success and advance contiguous progress.", "Retry forever.", "Treat the source as corrupt.", "Insert a fake log."],
+    "answer": 0,
+    "explanation": "No matching records is valid evidence for a filtered range and must not create a gap."
+  }
+]
