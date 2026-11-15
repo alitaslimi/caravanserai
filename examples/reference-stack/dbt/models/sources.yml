@@ -1,0 +1,14 @@
+version: 2
+sources:
+  - name: chain
+    schema: analytics
+    tables:
+      - name: raw_logs
+        columns:
+          - name: chain_id
+            tests: [not_null]
+          - name: block_hash
+            tests: [not_null]
+          - name: transaction_hash
+            tests: [not_null]
+

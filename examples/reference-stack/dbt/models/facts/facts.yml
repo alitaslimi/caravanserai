@@ -1,0 +1,17 @@
+version: 2
+models:
+  - name: fct_value_changes
+    description: "One canonical synthetic ValueChanged event per chain, block hash, transaction, and log index."
+    columns:
+      - name: chain_id
+        tests: [not_null]
+      - name: category
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["uncategorized", "rewards"]
+    tests:
+      - unique:
+          column_name: "tuple(chain_id, block_hash, transaction_hash, log_index)"
+

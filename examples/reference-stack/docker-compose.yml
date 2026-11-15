@@ -1,0 +1,67 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:26.8.34.13
+    environment:
+      CLICKHOUSE_DB: analytics
+      CLICKHOUSE_USER: learner
+      CLICKHOUSE_PASSWORD: learner
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - ./clickhouse/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "clickhouse-client", "--user", "learner", "--password", "learner", "--query", "select 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  dbt:
+    build:
+      context: .
+      dockerfile: dbt/Dockerfile
+    working_dir: /workspace/dbt
+    environment:
+      CLICKHOUSE_HOST: clickhouse
+      CLICKHOUSE_PORT: "8123"
+      CLICKHOUSE_DB: analytics
+      CLICKHOUSE_USER: learner
+      CLICKHOUSE_PASSWORD: learner
+      DBT_TARGET: dev
+    volumes:
+      - ./dbt:/workspace/dbt
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+
+  airflow:
+    profiles: ["orchestration"]
+    image: apache/airflow:3.3.1
+    command: standalone
+    user: "50000:0"
+    environment:
+      AIRFLOW_HOME: /opt/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      CLICKHOUSE_HTTP_URL: http://clickhouse:8123
+      CLICKHOUSE_USER: learner
+      CLICKHOUSE_PASSWORD: learner
+      PIPELINE_REVISION: reference-stack-v1
+      _PIP_ADDITIONAL_REQUIREMENTS: dbt-clickhouse==1.10.3
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags:ro
+      - ./dbt:/opt/airflow/dbt:ro
+      - airflow-data:/opt/airflow
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+
+volumes:
+  clickhouse-data:
+  airflow-data:
+
