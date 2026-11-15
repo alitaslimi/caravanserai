@@ -1,0 +1,6 @@
+[
+  {"question":"What should define ownership at a history-to-live cutover?","options":["Explicit adjacent half-open ranges anchored to a verified block hash.","Whichever task finishes first.","Two overlapping latest queries.","A dashboard refresh time."],"answer":0,"explanation":"Range ownership prevents gaps and races independently of scheduler timing."},
+  {"question":"When should an Airflow dataset event be emitted?","options":["After the source range is durably committed and passes its quality gate.","When extraction starts.","Whenever a sensor retries.","Before the destination write."],"answer":0,"explanation":"The event should represent consumable data, not intent to produce it."},
+  {"question":"Why use a deferrable sensor?","options":["It releases the worker while waiting for an external condition.","It removes the need for a timeout.","It guarantees provider support.","It replaces range manifests."],"answer":0,"explanation":"Deferral reduces occupied worker capacity during long waits."}
+]
+

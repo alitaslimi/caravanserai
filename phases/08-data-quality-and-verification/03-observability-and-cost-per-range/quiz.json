@@ -1,0 +1,6 @@
+[
+  {"question":"Why measure cutoff advancement separately from task success?","options":["Tasks can run successfully without moving the usable data boundary.","A cutoff is always a timestamp.","Task success includes provider cost.","It removes the need for manifests."],"answer":0,"explanation":"Operational activity is not the same as data progress."},
+  {"question":"Which value should not be a telemetry label?","options":["Transaction hash.","Pipeline stage.","Chain ID.","Error class."],"answer":0,"explanation":"High-cardinality identities belong in logs or manifests rather than metric dimensions."},
+  {"question":"How should failed request usage be treated?","options":["Attribute it to the attempted range and eventual outcome.","Discard it from cost analysis.","Count it as completed blocks.","Replace it with zero."],"answer":0,"explanation":"Failures consume resources and are essential to understanding retry-driven cost."}
+]
+

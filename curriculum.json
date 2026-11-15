@@ -96,6 +96,7 @@
       "Compare raw and provider-decoded coverage before migrating",
       "Track contract creation, proxies, upgrades, and ABI versions",
       "Resolve non-overlapping ABI eras by chain, address, and historical position",
+      "Normalize call trees and flat traces without losing ancestry or failure state",
       "Keep raw units and event roles explicit",
       "Validate with independent decodes and contract-derived invariants"
     ]
@@ -112,7 +113,8 @@
       "Size backfill chunks against measured resource limits",
       "Propagate bounded repairs through downstream consumers",
       "Validate and promote isolated models while the scheduler runs",
-      "Pin revisions, bound concurrency with pools, and fail closed on unverifiable artifacts"
+      "Pin revisions, bound concurrency with pools, and fail closed on unverifiable artifacts",
+      "Coordinate dynamic ranges, deferrable waits, datasets, and history-to-live cutover"
     ]
   },
   {
@@ -127,7 +129,8 @@
       "Use stratified samples and bounded whole-history checks",
       "Distinguish regression baselines from independent references",
       "Report affected coverage, severity, and remaining uncertainty",
-      "Run cheap critical checks hourly and broader reconciliation on slower cadences"
+      "Run cheap critical checks hourly and broader reconciliation on slower cadences",
+      "Measure lag, retries, scans, and cost per committed range with bounded-cardinality telemetry"
     ]
   },
   {

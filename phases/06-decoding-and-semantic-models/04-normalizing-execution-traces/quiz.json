@@ -1,0 +1,6 @@
+[
+  {"question":"What identifies a call frame structurally within a transaction?","options":["Its trace-address path from the root.","Its array position across the whole response.","The block timestamp alone.","The event topic."],"answer":0,"explanation":"A path preserves ancestry and is portable between tree and flat representations."},
+  {"question":"Why keep frame error separate from receipt status?","options":["A child call can fail while a parent handles the error and the transaction succeeds.","Receipts contain no transaction identity.","Every failed frame changes the block hash.","Trace APIs never report errors."],"answer":0,"explanation":"Execution success exists at both frame and transaction levels."},
+  {"question":"How should absent trace rows be interpreted?","options":["Only after coverage metadata distinguishes no calls from unsupported or uncollected data.","Always as zero internal calls.","Always as a failed transaction.","As a token-price gap."],"answer":0,"explanation":"Absence without capability and request evidence is ambiguous."}
+]
+
